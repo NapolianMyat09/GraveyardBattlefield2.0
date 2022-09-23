@@ -102,19 +102,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tracy\\.nuget\\packages\\": {}
+    "C:\\Users\\gamer\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tracy\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+      "projectUniqueName": "C:\\Users\\gamer\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
       "projectName": "GraveyardBattlefield",
-      "projectPath": "C:\\Users\\tracy\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
-      "packagesPath": "C:\\Users\\tracy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tracy\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\obj\\",
+      "projectPath": "C:\\Users\\gamer\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+      "packagesPath": "C:\\Users\\gamer\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\gamer\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tracy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\gamer\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -165,7 +165,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

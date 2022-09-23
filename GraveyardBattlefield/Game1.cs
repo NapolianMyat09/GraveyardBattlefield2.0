@@ -4,6 +4,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GraveyardBattlefield
 {
+    /*
+     * Project: Graveyard BattleField
+     * Names: Tracy Chun, Jason Wang, Napolian Myat, Ryan Matos
+     * Class: Game
+     * Purpose: handles monogame's update and draws
+     * 
+     * Updates:
+     * 
+     */
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
