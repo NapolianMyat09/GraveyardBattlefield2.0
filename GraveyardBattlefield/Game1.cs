@@ -69,13 +69,13 @@ namespace GraveyardBattlefield
             switch (gameState)
             {
                 case Screen.MainMenu:
-                    if (Process.SingleKeyPress(Keys.S, Process.CurrentKbState))
+                    if (Process.SingleKeyPress(Keys.S, Process.currentkbState))
                     {
                         gameState = Screen.FirstWave;
                     }
                     break;
                 case Screen.FirstWave:
-                    if (Process.SingleKeyPress(Keys.F, Process.CurrentKbState))
+                    if (Process.SingleKeyPress(Keys.F, Process.currentkbState))
                     {
                         gameState = Screen.SecondWave;
                     }
@@ -94,7 +94,7 @@ namespace GraveyardBattlefield
                     break;
                    
             }
-            Process.PreviouskbState = Process.CurrentKbState;
+            Process.prevKbState = Process.currentkbState;
             base.Update(gameTime);
         }
 

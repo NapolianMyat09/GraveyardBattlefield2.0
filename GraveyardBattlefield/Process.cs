@@ -20,18 +20,9 @@ namespace GraveyardBattlefield
      class Process
     {
         //fields
-        private static KeyboardState prevKbState;
-        private static KeyboardState kbState = Keyboard.GetState();
-        public static KeyboardState CurrentKbState
-        {
-            get { return kbState; }
-            set { CurrentKbState = Keyboard.GetState(); }
-        }
-        public static KeyboardState PreviouskbState
-        {
-            get { return prevKbState; }
-            set { prevKbState = value; }
-        }
+        public static KeyboardState prevKbState;
+        public static KeyboardState currentkbState = Keyboard.GetState();
+        
         /// <summary>
         /// Checks if the key processed through is pressed by checking keyboard states
         /// </summary>
@@ -39,7 +30,7 @@ namespace GraveyardBattlefield
         /// <param name="kbState"></param>
         public static bool SingleKeyPress(Keys key, KeyboardState kbState)
         {
-            if(kbState.IsKeyDown(key) && PreviouskbState.IsKeyUp(key))
+            if(kbState.IsKeyDown(key) && prevKbState.IsKeyUp(key))
             {
                 return true;
             }
