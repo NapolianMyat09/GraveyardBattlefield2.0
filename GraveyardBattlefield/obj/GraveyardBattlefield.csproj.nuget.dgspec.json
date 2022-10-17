@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Profiles\\tc2262\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {}
+    "C:\\Users\\35481\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {}
   },
   "projects": {
-    "D:\\Profiles\\tc2262\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {
+    "C:\\Users\\35481\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Profiles\\tc2262\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+        "projectUniqueName": "C:\\Users\\35481\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
         "projectName": "GraveyardBattlefield",
-        "projectPath": "D:\\Profiles\\tc2262\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
-        "packagesPath": "D:\\Profiles\\tc2262\\.nuget\\packages\\",
-        "outputPath": "D:\\Profiles\\tc2262\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\obj\\",
+        "projectPath": "C:\\Users\\35481\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+        "packagesPath": "C:\\Users\\35481\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\35481\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "Z:\\IGMProfile\\AppData\\NuGet\\NuGet.Config",
+          "C:\\Users\\35481\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -55,7 +60,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -64,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

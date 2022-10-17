@@ -30,8 +30,13 @@ namespace GraveyardBattlefield
         private Texture2D menu;
         private SpriteFont font;
         public Screen gameState = Screen.MainMenu;
-
-
+        public KeyboardState prevKbState;
+        public KeyboardState currentkbState;
+        private Player player;
+        private Texture2D playerTexture;
+        Rectangle position;
+        int width;
+        int height;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -42,7 +47,8 @@ namespace GraveyardBattlefield
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here\
-
+            width = _graphics.GraphicsDevice.Viewport.Width;
+            height = _graphics.GraphicsDevice.Viewport.Height;
             //changed window size to 1920 x 1080
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
@@ -58,33 +64,43 @@ namespace GraveyardBattlefield
             // TODO: use this.Content to load your game content here
             menu = Content.Load<Texture2D>("MainMenu");
             font = Content.Load<SpriteFont>("Font");
+            playerTexture = this.Content.Load<Texture2D>("file");
+            position = new Rectangle(width / 2, height / 2, playerTexture.Width, playerTexture.Height);
+            player = new Player(width, height, playerTexture, position);
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            currentkbState = Keyboard.GetState();
             // TODO: Add your update logic here
             switch (gameState)
             {
                 case Screen.MainMenu:
-                    if (Process.SingleKeyPress(Keys.S, Process.currentkbState))
+                    if (SingleKeyPress(Keys.S, currentkbState))
                     {
                         gameState = Screen.FirstWave;
                     }
                     break;
                 case Screen.FirstWave:
-                    if (Process.SingleKeyPress(Keys.F, Process.currentkbState))
+                    player.Update(gameTime);
+                    if (SingleKeyPress(Keys.F, currentkbState))
                     {
                         gameState = Screen.SecondWave;
                     }
                     break;
                 case Screen.SecondWave:
-                    _spriteBatch.DrawString(font, "second wave screen", new Vector2(300, 300), Color.Black);
+                    if (SingleKeyPress(Keys.S, currentkbState))
+                    {
+                        gameState = Screen.FinalWave;
+                    }
                     break;
                 case Screen.FinalWave:
-                    _spriteBatch.DrawString(font, "second wave screen", new Vector2(300, 300), Color.Black);
+                    if (SingleKeyPress(Keys.M, currentkbState))
+                    {
+                        gameState = Screen.MainMenu;
+                    }
                     break;
                 case Screen.CharSelection:
                     break;
@@ -94,6 +110,7 @@ namespace GraveyardBattlefield
                     break;
                    
             }
+            prevKbState = currentkbState;
             Process.prevKbState = Process.currentkbState;
             base.Update(gameTime);
         }
@@ -109,6 +126,8 @@ namespace GraveyardBattlefield
                     _spriteBatch.Draw(menu, new Vector2(0, 0), Color.White);
                     break;
                 case Screen.FirstWave:
+                    _spriteBatch.Draw(playerTexture, player.Position, Color.White);
+                    player.Draw(_spriteBatch);
                     _spriteBatch.DrawString(font, "first wave screen", new Vector2(300, 300), Color.Black);
 
                     break;
@@ -128,6 +147,18 @@ namespace GraveyardBattlefield
             }
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private bool SingleKeyPress(Keys key, KeyboardState kbState)
+        {
+            if (kbState.IsKeyDown(key) == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
