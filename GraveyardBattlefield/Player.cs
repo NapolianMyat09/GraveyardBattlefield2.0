@@ -10,7 +10,7 @@ namespace GraveyardBattlefield
 {
     /*
      * Project: Graveyard BattleField
-     * Names: Tracy Chun, Jason Wang, Napolian Myat, Ryan Matos
+     * Names: Tracy Chun, Jason Wang, Napolian Myat
      * Class: Player
      * Purpose: - handles player class and their interactions with npcs
      *          - Has stats of players, health, damage, etc.

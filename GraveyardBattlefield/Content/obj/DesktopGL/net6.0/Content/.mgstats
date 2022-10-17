@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"D:/Profiles/tc2262/Source/Repos/GDAPS2GameProject/GraveyardBattlefield/Content/Font.spritefont","D:/Profiles/tc2262/Source/Repos/GDAPS2GameProject/GraveyardBattlefield/Content/bin/DesktopGL/Content/Font.xnb","FontDescriptionProcessor","SpriteFontContent",2065,21535,0.3426764
+"D:/Profiles/tc2262/Source/Repos/GDAPS2GameProject/GraveyardBattlefield/Content/MainMenu.png","D:/Profiles/tc2262/Source/Repos/GDAPS2GameProject/GraveyardBattlefield/Content/bin/DesktopGL/Content/MainMenu.xnb","TextureProcessor","Texture2DContent",1097625,8294485,0.5335357
