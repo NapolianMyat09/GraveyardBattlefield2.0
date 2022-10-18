@@ -138,7 +138,7 @@ namespace GraveyardBattlefield
                         foreach(Enemy zombies in Zombies)
                         {
                             zombies.Draw(_spriteBatch);
-                        }
+                        } 
                         break;
                     }
                 case GameMode.GameOver:
