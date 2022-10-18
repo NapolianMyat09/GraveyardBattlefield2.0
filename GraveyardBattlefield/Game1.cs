@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System;
 
 namespace GraveyardBattlefield
 {
@@ -13,30 +15,34 @@ namespace GraveyardBattlefield
      * Updates:
      * 
      */
-    public enum Screen
+    enum GameMode
     {
-        MainMenu,
-        FirstWave,
-        SecondWave,
-        FinalWave,
-        CharSelection,
-        Controls,
-        AboutUs
+        Menu,
+        Waves,
+        GameOver
     }
     public class Game1 : Game
     {
+        //fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D menu;
-        private SpriteFont font;
-        public Screen gameState = Screen.MainMenu;
-        public KeyboardState prevKbState;
-        public KeyboardState currentkbState;
+        private GameMode currentMode = GameMode.Menu;
         private Player player;
-        private Texture2D playerTexture;
-        Rectangle position;
+        private List<Enemy> Zombies = new List<Enemy>();
+        private KeyboardState previousKBState;
+        private Random rdm = new Random();
         int width;
         int height;
+        int wave = 1;
+
+        //the player and zombie assets
+        Texture2D playerTexture;
+        Rectangle playerPosition;
+        Texture2D zombieTexture;
+        Rectangle zombiePosition;
+
+        //fonts
+        private SpriteFont Font;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -46,14 +52,12 @@ namespace GraveyardBattlefield
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here\
             width = _graphics.GraphicsDevice.Viewport.Width;
             height = _graphics.GraphicsDevice.Viewport.Height;
-            //changed window size to 1920 x 1080
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1080;
+            // TODO: Add your initialization logic here
+            _graphics.PreferredBackBufferWidth = 1200;
+            _graphics.PreferredBackBufferHeight = 1200; 
             _graphics.ApplyChanges();
-
             base.Initialize();
         }
 
@@ -61,57 +65,55 @@ namespace GraveyardBattlefield
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            menu = Content.Load<Texture2D>("MainMenu");
-            font = Content.Load<SpriteFont>("Font");
-            playerTexture = this.Content.Load<Texture2D>("file");
-            position = new Rectangle(width / 2, height / 2, playerTexture.Width, playerTexture.Height);
-            player = new Player(width, height, playerTexture, position);
+            //load the textures and rectangle and intialize the player object
+            playerTexture = this.Content.Load<Texture2D>("playerPlaceHolder1");
+            playerPosition = new Rectangle(width / 2, height / 2, playerTexture.Width, playerTexture.Height);
+            player = new Player(width, height, playerTexture, playerPosition);
+            zombieTexture = this.Content.Load<Texture2D>("zombiePlaceHolder1");
+            zombiePosition = new Rectangle(width / 2, height / 2, zombieTexture.Width, zombieTexture.Height);
+
+            //load font
+            Font = Content.Load<SpriteFont>("Font");
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            currentkbState = Keyboard.GetState();
-            // TODO: Add your update logic here
-            switch (gameState)
+
+            //check current keyboard state then update
+            KeyboardState kbstate = Keyboard.GetState();
+            switch (currentMode)
             {
-                case Screen.MainMenu:
-                    if (SingleKeyPress(Keys.S, currentkbState))
+                case GameMode.Menu:
                     {
-                        gameState = Screen.FirstWave;
+                        if (SingleKeyPress(Keys.Enter, kbstate) == true)
+                        {
+                            currentMode = GameMode.Waves;
+                            previousKBState = kbstate;
+                        }
+                        NextWave();
+                        break;
                     }
-                    break;
-                case Screen.FirstWave:
-                    player.Update(gameTime);
-                    if (SingleKeyPress(Keys.F, currentkbState))
+                case GameMode.Waves:
                     {
-                        gameState = Screen.SecondWave;
+                        player.Update(gameTime);
+
+                        //loop through the game
+                        break;
                     }
-                    break;
-                case Screen.SecondWave:
-                    if (SingleKeyPress(Keys.S, currentkbState))
+                case GameMode.GameOver:
                     {
-                        gameState = Screen.FinalWave;
+                        if (SingleKeyPress(Keys.Enter, kbstate) == true)
+                        {
+                            currentMode = GameMode.Menu;
+                            previousKBState = kbstate;
+                            wave = 1;
+                        }
+                        break;
                     }
-                    break;
-                case Screen.FinalWave:
-                    if (SingleKeyPress(Keys.M, currentkbState))
-                    {
-                        gameState = Screen.MainMenu;
-                    }
-                    break;
-                case Screen.CharSelection:
-                    break;
-                case Screen.Controls:
-                    break;
-                case Screen.AboutUs:
-                    break;
-                   
             }
-            prevKbState = currentkbState;
-            Process.prevKbState = Process.currentkbState;
+
             base.Update(gameTime);
         }
 
@@ -119,36 +121,54 @@ namespace GraveyardBattlefield
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            switch (gameState)
+            switch (currentMode)
             {
-                case Screen.MainMenu:
-                    _spriteBatch.Draw(menu, new Vector2(0, 0), Color.White);
-                    break;
-                case Screen.FirstWave:
-                    _spriteBatch.Draw(playerTexture, player.Position, Color.White);
-                    player.Draw(_spriteBatch);
-                    _spriteBatch.DrawString(font, "first wave screen", new Vector2(300, 300), Color.Black);
-
-                    break;
-                case Screen.SecondWave:
-                    _spriteBatch.DrawString(font, "second wave screen", new Vector2(300, 300), Color.Black);
-                    break;
-                case Screen.FinalWave:
-                    _spriteBatch.DrawString(font, "second wave screen", new Vector2(300, 300), Color.Black);
-
-                    break;
-                case Screen.CharSelection:
-                    break;
-                case Screen.Controls:
-                    break;
-                case Screen.AboutUs:
-                    break;
+                case GameMode.Menu:
+                    {
+                        //the main menu
+                        _spriteBatch.DrawString(Font, $"Main menu", new Vector2(300, 600), Color.Black);
+                        break;
+                    }
+                case GameMode.Waves:
+                    {
+                        _spriteBatch.Draw(playerTexture, player.Position, Color.White);
+                        player.Draw(_spriteBatch);
+                        foreach(Enemy zombies in Zombies)
+                        {
+                            zombies.Draw(_spriteBatch);
+                        }
+                        break;
+                    }
+                case GameMode.GameOver:
+                    {
+                        //the main menu
+                        break;
+                    }
             }
             _spriteBatch.End();
             base.Draw(gameTime);
         }
 
+        private void NextWave()
+        {
+            if (wave == 1)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(0, rdm.Next(0, 1200), zombieTexture.Width, zombieTexture.Height)));
+                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(1200, rdm.Next(0, 1200), zombieTexture.Width, zombieTexture.Height)));
+                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(rdm.Next(0, 1200), 0, zombieTexture.Width, zombieTexture.Height)));
+                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(rdm.Next(0, 1200), 1200, zombieTexture.Width, zombieTexture.Height)));
+                }
+            }
+            //sprint 3
+            else if(wave == 2) { }
+            else if(wave == 3) { } 
+        }
+
+        //check for single key
         private bool SingleKeyPress(Keys key, KeyboardState kbState)
         {
             if (kbState.IsKeyDown(key) == true)
