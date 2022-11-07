@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,12 +25,20 @@ namespace GraveyardBattlefield
         //fields
         private int width;
         private int height;
+        private int health;
+
+        //property
+        public int Health
+        {
+            get { return health; }
+        }
 
         //constructor
         public Player(int width, int height, Texture2D texture, Rectangle position) : base(position, texture)
         {
             this.width = width;
             this.height = height;
+            health = 1000;
         }
 
         //methods
@@ -38,7 +47,7 @@ namespace GraveyardBattlefield
             int speed = 4;
             KeyboardState kbstate = Keyboard.GetState();
 
-            if (kbstate.IsKeyDown(Keys.W) || kbstate.IsKeyDown(Keys.Up))
+            if (kbstate.IsKeyDown(Keys.W))
             {
                 position.Y -= speed;
                 if (position.Y < 0)
@@ -46,7 +55,7 @@ namespace GraveyardBattlefield
                     position.Y = 0;
                 }
             }
-            if (kbstate.IsKeyDown(Keys.A) || kbstate.IsKeyDown(Keys.Left))
+            if (kbstate.IsKeyDown(Keys.A))
             {
                 position.X -= speed;
                 if (position.X < 0)
@@ -54,7 +63,7 @@ namespace GraveyardBattlefield
                     position.X = 0;
                 }
             }
-            if (kbstate.IsKeyDown(Keys.S) || kbstate.IsKeyDown(Keys.Down))
+            if (kbstate.IsKeyDown(Keys.S))
             {
                 position.Y += speed;
                 if (position.Y > 1120)
@@ -62,7 +71,7 @@ namespace GraveyardBattlefield
                     position.Y = 1120;
                 }
             }
-            if (kbstate.IsKeyDown(Keys.D) || kbstate.IsKeyDown(Keys.Right))
+            if (kbstate.IsKeyDown(Keys.D))
             {
                 position.X += speed;
                 if (position.X > 1120)
@@ -70,6 +79,10 @@ namespace GraveyardBattlefield
                     position.X = 1120;
                 }
             }
+        }
+        public void takeDamage()
+        {
+            health -= 1;
         }
     }
 }

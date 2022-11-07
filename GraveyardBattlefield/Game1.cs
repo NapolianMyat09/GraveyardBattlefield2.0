@@ -35,11 +35,16 @@ namespace GraveyardBattlefield
         int height;
         int wave = 1;
 
+        //ammo assets
+        Texture2D bulletTexture;
+        private int playerBullet = 150;
+        private int playerBackupBullet = 600;
+        private List<bullet> bullets = new List<bullet>();
+
         //the player and zombie assets
         Texture2D playerTexture;
         Rectangle playerPosition;
         Texture2D zombieTexture;
-        Rectangle zombiePosition;
 
         //fonts
         private SpriteFont Font;
@@ -70,7 +75,9 @@ namespace GraveyardBattlefield
             playerPosition = new Rectangle(width / 2, height / 2, playerTexture.Width, playerTexture.Height);
             player = new Player(width, height, playerTexture, playerPosition);
             zombieTexture = this.Content.Load<Texture2D>("zombiePlaceHolder1");
-            zombiePosition = new Rectangle(width / 2, height / 2, zombieTexture.Width, zombieTexture.Height);
+
+            //load bullet asset
+            bulletTexture = this.Content.Load<Texture2D>("bulletPlaceHolder"); 
 
             //load font
             Font = Content.Load<SpriteFont>("Font");
@@ -87,6 +94,7 @@ namespace GraveyardBattlefield
             {
                 case GameMode.Menu:
                     {
+                        Zombies.Clear();
                         if (SingleKeyPress(Keys.Enter, kbstate) == true)
                         {
                             currentMode = GameMode.Waves;
@@ -98,6 +106,11 @@ namespace GraveyardBattlefield
                 case GameMode.Waves:
                     {
                         player.Update(gameTime);
+                        addBullet();
+                        foreach(Enemy zombies in Zombies)
+                        {
+                            zombies.Update(gameTime,player);
+                        }
 
                         //loop through the game
                         break;
@@ -134,11 +147,18 @@ namespace GraveyardBattlefield
                 case GameMode.Waves:
                     {
                         _spriteBatch.Draw(playerTexture, player.Position, Color.White);
+                        _spriteBatch.DrawString(Font, $"player remaining health: {player.Health}\n" +
+                            $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.Black);
                         player.Draw(_spriteBatch);
                         foreach(Enemy zombies in Zombies)
                         {
                             zombies.Draw(_spriteBatch);
                         } 
+                        foreach(bullet bullets in bullets)
+                        {
+                            bullets.Draw(_spriteBatch);
+                            bullets.shootBullet();
+                        }
                         break;
                     }
                 case GameMode.GameOver:
@@ -155,17 +175,38 @@ namespace GraveyardBattlefield
         {
             if (wave == 1)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 2; i++)
                 {
-                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(0, rdm.Next(0, 1200), zombieTexture.Width, zombieTexture.Height)));
-                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(1200, rdm.Next(0, 1200), zombieTexture.Width, zombieTexture.Height)));
-                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(rdm.Next(0, 1200), 0, zombieTexture.Width, zombieTexture.Height)));
-                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(rdm.Next(0, 1200), 1200, zombieTexture.Width, zombieTexture.Height)));
+                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(0, rdm.Next(0, 1120), zombieTexture.Width, zombieTexture.Height)));
+                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(1120, rdm.Next(0, 1120), zombieTexture.Width, zombieTexture.Height)));
+                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(rdm.Next(0, 1120), 0, zombieTexture.Width, zombieTexture.Height)));
+                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(rdm.Next(0, 1120), 1120, zombieTexture.Width, zombieTexture.Height)));
                 }
             }
-            //sprint 3
+            //sprint 4
             else if(wave == 2) { }
             else if(wave == 3) { } 
+        }
+
+        private void addBullet()
+        {
+            KeyboardState kbstate = Keyboard.GetState();
+            if (kbstate.IsKeyDown(Keys.Up))
+            {
+                bullets.Add(new bullet(width, height, new Rectangle(player.Position.X,player.Position.Y,bulletTexture.Width,bulletTexture.Height) ,bulletTexture,"up"));
+            }
+            if (kbstate.IsKeyDown(Keys.Left))
+            {
+                bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "left"));
+            }
+            if (kbstate.IsKeyDown(Keys.Down))
+            {
+                bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "down"));
+            }
+            if (kbstate.IsKeyDown(Keys.Right))
+            {
+                bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "right"));
+            }
         }
 
         //check for single key

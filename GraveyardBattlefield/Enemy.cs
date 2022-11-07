@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,19 +21,70 @@ namespace GraveyardBattlefield
      * Updates:
      * 
      */
-    internal class Enemy:GameObject
+    internal class Enemy
     {
         //fields
         private int width;
         private int height;
+        protected Rectangle position;
+        protected Texture2D texture;
+
+        //property
+        public Rectangle Position
+        {
+            get { return position; }
+        }
 
         //constructor
-        public Enemy(int width, int height, Texture2D texture, Rectangle position) : base(position, texture)
+        public Enemy(int width, int height, Texture2D texture, Rectangle position)
         {
             this.width = width;
             this.height = height;
+            this.position = position;
+            this.texture = texture;
         }
 
-        public override void Update(GameTime gametime) { }
+        public void Update(GameTime gametime, Player player)
+        {
+            bool XequalPlayer = false;
+            bool YequalPlayer = false;
+
+            //change X value base on player's X value
+            if (player.Position.X + player.Position.Width - 20 < position.X)
+            {
+                position.X -= 2;
+                XequalPlayer = false;
+            }
+            else if (player.Position.X - player.Position.Width + 20 > position.X)
+            {
+                position.X += 2;
+                XequalPlayer = false;
+            }
+            else XequalPlayer = true;
+
+            //change Y value base on player's Y value
+            if (player.Position.Y + player.Position.Height - 20 < position.Y)
+            {
+                position.Y -= 2;
+                YequalPlayer = false;
+            }
+            else if (player.Position.Y - player.Position.Height + 20 > position.Y)
+            {
+                position.Y += 2;
+                YequalPlayer = false;
+            }
+            else YequalPlayer = true;
+
+            //if player's x and y value both intersect with zombie's x and y value, then take damage
+            if(XequalPlayer == true && YequalPlayer == true)
+            {
+                player.takeDamage();
+            }
+        }
+
+        public void Draw(SpriteBatch sb)
+        {
+             sb.Draw(texture, position, Color.White);
+        }
     }
 }
