@@ -81,9 +81,9 @@ namespace GraveyardBattlefield
             if (currentKbState.IsKeyDown(Keys.S)) //S for down
             {
                 position.Y += 4f;
-                if (position.Y > 1120)
+                if (position.Y > Game1.Height - PlayerHeight)
                 {
-                    position.Y = 1120;
+                    position.Y = Game1.Height - PlayerHeight;
                 }
                 walkingState = Walking.Down;
 
@@ -91,9 +91,9 @@ namespace GraveyardBattlefield
             if (currentKbState.IsKeyDown(Keys.D)) //D for right
             {
                 position.X += 4f;
-                if (position.X > 1120)
+                if (position.X > Game1.Width - PlayerWidth)
                 {
-                    position.X = 1120;
+                    position.X = Game1.Width - PlayerWidth;
                 }
                 walkingState = Walking.Right;
             }

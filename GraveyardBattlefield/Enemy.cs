@@ -23,31 +23,21 @@ namespace GraveyardBattlefield
      */
     internal class Enemy
     {
-        private int frame;
-        private double timeCounter;
-        private double timePerFrame;
-
-        // Constants for spriteSheet
-        const int WalkFrameCount = 3;
-        const int VerticalPlayerOffsetY = 90;
-        const int ZombieHeight = 170;     // The height of a single frame
-        const int ZombieWidth = 205;      // The width of a single frame
-
+       
 
         private Vector2 position;
+        private Texture2D asset;
         public int Health { get; set; }
 
         public Vector2 Position { get { return position; } set { position = value; } }
 
-        public Texture2D Asset { get; set; }
         public Enemy(Vector2 position, Texture2D asset)
 
         {
             Position = position;
-            Asset = asset;
+            this.asset = asset;
             Health = 100;
-            frame = 0;
-            timePerFrame = 0.1f;
+            
         }
         public void Update(GameTime gametime, Player player)
         {
@@ -90,35 +80,8 @@ namespace GraveyardBattlefield
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(Asset,
-                Position,
-                new Rectangle(frame * ZombieWidth,
-                VerticalPlayerOffsetY,
-                ZombieWidth,
-                ZombieHeight),
-                Color.White,                                     // - No Rotation
-                0,
-                Vector2.Zero,                           // - start counting in first row
-                0.5f,                                   // - 50% scale change
-                SpriteEffects.None,
-                0); ;
+            sb.Draw(asset, Position, Color.White);
         }
-        public void UpdateAnimation(GameTime gameTime)
-        {
-            timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-            // If enough time has passed:
-            if (timeCounter >= timePerFrame)
-            {
-                frame += 1;                     // Adjust the frame to the next image
-
-                if (frame > WalkFrameCount)    //double check bounds of frames
-                {
-                    frame = 0;
-                }
-
-                timeCounter -= timePerFrame;
-            }
-        }
     }
 }

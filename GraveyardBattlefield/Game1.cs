@@ -34,9 +34,18 @@ namespace GraveyardBattlefield
         private List<Enemy> Zombies = new List<Enemy>();
         private KeyboardState previousKBState;
         private Random rdm = new Random();
-        int width;
-        int height;
+        private static int width;
+        private static int height;
         int wave = 1;
+
+        public static int Width
+        {
+            get { return width; }
+        }
+        public static int Height
+        {
+            get { return height; }
+        }
 
         //ammo assets
         Texture2D bulletTexture;
@@ -49,8 +58,7 @@ namespace GraveyardBattlefield
         private Texture2D zombieAsset;
         private Texture2D playerAsset;
         private Texture2D gameOverAsset;
-        private Texture2D menuImage;
-
+        private Texture2D background;
         //fonts
         private SpriteFont Font;
         public Game1()
@@ -62,11 +70,12 @@ namespace GraveyardBattlefield
 
         protected override void Initialize()
         {
-            width = _graphics.GraphicsDevice.Viewport.Width;
-            height = _graphics.GraphicsDevice.Viewport.Height;
+            
             // TODO: Add your initialization logic here
-            _graphics.PreferredBackBufferWidth = 1200;
-            _graphics.PreferredBackBufferHeight = 1200; 
+            _graphics.PreferredBackBufferWidth = 1600;
+            _graphics.PreferredBackBufferHeight = 1000;
+            width = _graphics.PreferredBackBufferWidth;
+            height = _graphics.PreferredBackBufferHeight;
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -76,16 +85,16 @@ namespace GraveyardBattlefield
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //load the textures and rectangle and intialize the player object
-            zombieAsset = this.Content.Load<Texture2D>("zombieSpriteSheet");
+            zombieAsset = this.Content.Load<Texture2D>("zombieKid");
             playerAsset = this.Content.Load<Texture2D>("playerSpriteSheet");
-            menuImage = this.Content.Load<Texture2D>("MenuImage");
+            background = this.Content.Load<Texture2D>("graveyard");
 
-            //menuScreen = this.Content.Load<Texture2D>("");
+            menuScreen = this.Content.Load<Texture2D>("mainMenuScreen");
             //gameOverAsset = this.Content.Load<Texture2D>("");
             player = new Player(new Vector2(300, 300), playerAsset);
 
             //load bullet asset
-            bulletTexture = this.Content.Load<Texture2D>("bulletPlaceHolder"); 
+            bulletTexture = this.Content.Load<Texture2D>("bullet"); 
 
             //load font
             Font = Content.Load<SpriteFont>("Font");
@@ -156,16 +165,16 @@ namespace GraveyardBattlefield
                 case Stage.Main:
                     {
                         //the main menu
-                        _spriteBatch.Draw(menuImage, new Rectangle(0, 0, 1200, 1200), Color.White);
+                        _spriteBatch.Draw(menuScreen, new Rectangle(0, 0, width, height), Color.White);
                         _spriteBatch.DrawString(Font, $"Press 'Enter' to start the game", new Vector2(300, 650), Color.White);
                         break;
                     }
                 case Stage.Wave1:
                     {
-                        GraphicsDevice.Clear(Color.LightGreen);
+                        _spriteBatch.Draw(background, new Rectangle(0, 0, width, height), Color.White);
                         player.Draw(_spriteBatch);
                         _spriteBatch.DrawString(Font, $"player remaining health: {player.Health}\n" +
-                            $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.Black);
+                            $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White);
                         player.Draw(_spriteBatch);
                         foreach(Enemy zombies in Zombies)
                         {
@@ -193,10 +202,10 @@ namespace GraveyardBattlefield
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Zombies.Add(new Enemy(new Vector2(0, rdm.Next(0, 1120)), zombieAsset));
-                    Zombies.Add(new Enemy(new Vector2(1120, rdm.Next(0, 1120)), zombieAsset));
-                    Zombies.Add(new Enemy(new Vector2(rdm.Next(0, 1120), 0), zombieAsset));
-                    Zombies.Add(new Enemy(new Vector2(rdm.Next(0, 1120), 1120), zombieAsset));
+                    Zombies.Add(new Enemy(new Vector2(0, rdm.Next(0, height)), zombieAsset));
+                    Zombies.Add(new Enemy(new Vector2(width, rdm.Next(0, height)), zombieAsset));
+                    Zombies.Add(new Enemy(new Vector2(rdm.Next(0, width), 0), zombieAsset));
+                    Zombies.Add(new Enemy(new Vector2(rdm.Next(0, width), height), zombieAsset));
 
                 }
             }

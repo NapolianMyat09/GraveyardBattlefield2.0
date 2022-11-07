@@ -67,7 +67,7 @@ namespace GraveyardBattlefield
         //Draw bullet
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture, position, Color.White);
+            sb.Draw(texture, new Rectangle(position.X, position.Y, 20, 20), Color.White);
         }
     }
 }
