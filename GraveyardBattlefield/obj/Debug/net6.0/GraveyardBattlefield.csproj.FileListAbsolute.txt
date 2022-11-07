@@ -52,8 +52,6 @@ C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net
 C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net6.0\GraveyardBattlefield.pdb
 C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net6.0\GraveyardBattlefield.genruntimeconfig.cache
 C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net6.0\ref\GraveyardBattlefield.dll
-C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\playerPlaceHolder1.xnb
-C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombiePlaceHolder1.xnb
 C:\Users\35481\source\repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\bulletPlaceHolder.xnb
 C:\Users\tracy\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\bulletPlaceHolder.xnb
 C:\Users\tracy\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\Font.xnb
@@ -85,3 +83,5 @@ C:\Users\tracy\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net
 C:\Users\tracy\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net6.0\ref\GraveyardBattlefield.dll
 C:\Users\tracy\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\playerSpriteSheet.xnb
 C:\Users\tracy\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieSpriteSheet.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\playerSpriteSheet.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieSpriteSheet.xnb

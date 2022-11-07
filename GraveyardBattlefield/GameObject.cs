@@ -12,23 +12,23 @@ namespace GraveyardBattlefield
     public abstract class GameObject
     {
         //fields
-        protected static Vector2 position;
-        protected static Texture2D texture;
+        protected Vector2 position;
+        protected Texture2D texture;
 
 
         //property
-        public static Vector2 Position
+        public Vector2 Position
         {
             get { return position; }
             set { position = value; }
         }
-        public static Texture2D Texture { get; set; }
+        public Texture2D Texture { get; set; }
 
         //constructor
         protected GameObject(Vector2 position, Texture2D texture)
         {
-            GameObject.Position = position;
-            GameObject.Texture = texture;
+            this.position = position;
+            this.Texture = texture;
         }
 
         //methods

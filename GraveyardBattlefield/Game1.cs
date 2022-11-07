@@ -100,6 +100,7 @@ namespace GraveyardBattlefield
                 case Stage.Main:
                     {
                         Zombies.Clear();
+                        resetGame();
                         if (Process.SingleKeyPress(kbstate, Keys.Enter))
                         {
                             gameState = Stage.Wave1;
@@ -110,16 +111,20 @@ namespace GraveyardBattlefield
                 case Stage.Wave1:
                     {
                         player.Update(gameTime, kbstate);
-                        //addBullet();
+                        addBullet();
                         foreach(Enemy zombies in Zombies)
                         {
-                            zombies.Update(gameTime, kbstate);
+                            zombies.Update(gameTime, player);
                         }
                         foreach (bullet bullets in bullets)
                         {
                             bullets.shootBullet();
                         }
 
+                        if(player.Health <= 0)
+                        {
+                            gameState = Stage.GameOver;
+                        }
                         //loop through the game
                         break;
                     }
@@ -155,7 +160,7 @@ namespace GraveyardBattlefield
                     {
                         GraphicsDevice.Clear(Color.LightGreen);
                         player.Draw(_spriteBatch);
-                        _spriteBatch.DrawString(Font, $"player remaining health: {Player.Health}\n" +
+                        _spriteBatch.DrawString(Font, $"player remaining health: {player.Health}\n" +
                             $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.Black);
                         player.Draw(_spriteBatch);
                         foreach(Enemy zombies in Zombies)
@@ -170,7 +175,7 @@ namespace GraveyardBattlefield
                     }
                 case Stage.GameOver:
                     {
-                        //the main menu
+                        _spriteBatch.DrawString(Font, $"Press Enter to go back to Main menu", new Vector2(300, 600), Color.Black);
                         break;
                     }
             }
@@ -182,7 +187,7 @@ namespace GraveyardBattlefield
         {
             if (wave == 1)
             {
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     Zombies.Add(new Enemy(new Vector2(0, rdm.Next(0, 1120)), zombieAsset));
                     Zombies.Add(new Enemy(new Vector2(1120, rdm.Next(0, 1120)), zombieAsset));
@@ -197,7 +202,6 @@ namespace GraveyardBattlefield
         }
 
         //need to convert 
-        /*
         private void addBullet()
         {
             KeyboardState kbstate = Keyboard.GetState();
@@ -207,27 +211,25 @@ namespace GraveyardBattlefield
             {
                 if (kbstate.IsKeyDown(Keys.Up))
                 {
-                    bullets.Add(new bullet(width, height, new Rectangle(Player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "up"));
+                    bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "up"));
                     playerBullet--;
                 }
                 if (kbstate.IsKeyDown(Keys.Left))
                 {
-                    bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "left"));
+                    bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "left"));
                     playerBullet--;
                 }
                 if (kbstate.IsKeyDown(Keys.Down))
                 {
-                    bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "down"));
+                    bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "down"));
                     playerBullet--;
                 }
                 if (kbstate.IsKeyDown(Keys.Right))
                 {
-                    bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "right"));
+                    bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "right"));
                     playerBullet--;
                 }
             }
-
-        
             //if we still have the backup bullets
             if(playerBackupBullet >= 150)
             {
@@ -238,7 +240,14 @@ namespace GraveyardBattlefield
                 }
             }
         }
-        */
+
+        //reset game method
+        public void resetGame()
+        {
+            player.Health = 300;
+            playerBullet = 150;
+            playerBackupBullet = 600;
+        }
         
     }
 }

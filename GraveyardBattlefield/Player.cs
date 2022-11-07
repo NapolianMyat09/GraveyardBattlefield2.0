@@ -31,8 +31,8 @@ namespace GraveyardBattlefield
         const int PlayerWidth = 64;      // The width of a single frame
 
         Walking walkingState;
-        private static int health;
-        public static int Health
+        private int health;
+        public int Health
         {
             get { return health; }
             set
@@ -48,7 +48,7 @@ namespace GraveyardBattlefield
             frame = 0;
             timeCounter = 0;
             timePerFrame = 0.1;
-            Health = 5;
+            Health = 300;
         }
 
 
@@ -57,24 +57,40 @@ namespace GraveyardBattlefield
             if (currentKbState.IsKeyDown(Keys.W))
             {
                 position.Y -= 4f;
+                if (position.Y < 0)
+                {
+                    position.Y = 0;
+                }
                 walkingState = Walking.Up;
 
             }
             if (currentKbState.IsKeyDown(Keys.A))
             {
                 position.X -= 4f;
+                if (position.X < 0)
+                {
+                    position.X = 0;
+                }
                 walkingState = Walking.Left;
 
             }
             if (currentKbState.IsKeyDown(Keys.S))
             {
                 position.Y += 4f;
+                if (position.Y > 1120)
+                {
+                    position.Y = 1120;
+                }
                 walkingState = Walking.Down;
 
             }
             if (currentKbState.IsKeyDown(Keys.D))
             {
                 position.X += 4f;
+                if (position.X > 1120)
+                {
+                    position.X = 1120;
+                }
                 walkingState = Walking.Right;
             }
         }
@@ -88,7 +104,7 @@ namespace GraveyardBattlefield
             switch (walkingState)
             {
                 case Walking.Up:
-                    DrawWalkingVertical(SpriteEffects.FlipVertically, sb);
+                    DrawWalkingVertical(SpriteEffects.None, sb);
                     break;
                 case Walking.Left:
                     DrawWalkingHorizontal(SpriteEffects.None, sb);
@@ -104,7 +120,7 @@ namespace GraveyardBattlefield
         private void DrawWalkingHorizontal(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                Player.Texture,                         // - The texture to draw
+                Texture,                         // - The texture to draw
                 Position,                               // - Where to draw it
                 new Rectangle(                          // - The rectangle to draw
                     frame * PlayerWidth,
@@ -121,7 +137,7 @@ namespace GraveyardBattlefield
         private void DrawWalkingVertical(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                Player.Texture,                         // - The texture to draw
+                Texture,                         // - The texture to draw
                 Position,                               // - Where to draw it
                 new Rectangle(                          // - The rectangle to draw
                     frame * PlayerWidth,
@@ -153,7 +169,7 @@ namespace GraveyardBattlefield
             }
         }
     
-    public static void TakeDamage()
+    public void TakeDamage()
         {
             Health -= 1;
         }

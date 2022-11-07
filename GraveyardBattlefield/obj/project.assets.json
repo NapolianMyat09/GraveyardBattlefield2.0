@@ -102,23 +102,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tracy\\.nuget\\packages\\": {},
+    "C:\\Users\\35481\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tracy\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+      "projectUniqueName": "C:\\Users\\35481\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
       "projectName": "GraveyardBattlefield",
-      "projectPath": "C:\\Users\\tracy\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
-      "packagesPath": "C:\\Users\\tracy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tracy\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\obj\\",
+      "projectPath": "C:\\Users\\35481\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+      "packagesPath": "C:\\Users\\35481\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\35481\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\tracy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\35481\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -171,7 +171,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

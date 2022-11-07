@@ -45,44 +45,46 @@ namespace GraveyardBattlefield
         {
             Position = position;
             Asset = asset;
-            Health = 3;
+            Health = 100;
             frame = 0;
             timePerFrame = 0.1f;
         }
-        public void Movement()
+        public void Update(GameTime gametime, Player player)
         {
+            bool XequalPlayer = false;
+            bool YequalPlayer = false;
+            int zombieSpeed = 3;
 
-            if (Position != Player.Position)
+            //change X value base on player's X value
+            if (player.Position.X + 30 < position.X) 
             {
-                if (Position.X < Player.Position.X)
-                {
-                    position.X += 2;
-                }
-                if (Position.X > Player.Position.X)
-                {
-                    position.X -= 2;
-
-                }
-                if (position.Y < Player.Position.Y)
-                {
-                    position.Y += 2;
-
-                }
-                if (position.Y > Player.Position.Y)
-                {
-                    position.Y--;
-                }
+                position.X -= zombieSpeed;
+                XequalPlayer = false;
             }
-
-        }
-        public void Update(GameTime gametime, KeyboardState currentKbState)
-        {
-            Movement();
-            UpdateAnimation(gametime);
-            //if player's x and y value both intersect with zombie's x and y value, then take damage
-            if (Player.Position == this.Position )
+            else if (player.Position.X - 30 > position.X)
             {
-                Player.TakeDamage();
+                position.X += zombieSpeed;
+                XequalPlayer = false;
+            }
+            else XequalPlayer = true;
+
+            //change Y value base on player's Y value
+            if (player.Position.Y + 30 < position.Y)
+            {
+                position.Y -= zombieSpeed;
+                YequalPlayer = false;
+            }
+            else if (player.Position.Y - 30> position.Y)
+            {
+                position.Y += zombieSpeed;
+                YequalPlayer = false;
+            }
+            else YequalPlayer = true;
+
+            //if player's x and y value both intersect with zombie's x and y value, then take damage
+            if (XequalPlayer == true && YequalPlayer == true)
+            {
+                player.TakeDamage();
             }
         }
 
