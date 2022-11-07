@@ -44,7 +44,7 @@
 /processorParam:TextureFormat=Color
 /build:MainMenu.png
 
-#begin playerPlaceHolder1.png
+#begin playerSpriteSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -54,9 +54,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:playerPlaceHolder1.png
+/build:playerSpriteSheet.png
 
-#begin zombiePlaceHolder1.png
+#begin zombieSpriteSheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -66,5 +66,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:zombiePlaceHolder1.png
+/build:zombieSpriteSheet.png
 

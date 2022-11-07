@@ -4,85 +4,158 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GraveyardBattlefield
 {
-    /*
-     * Project: Graveyard BattleField
-     * Names: Tracy Chun, Jason Wang, Napolian Myat
-     * Class: Player
-     * Purpose: - handles player class and their interactions with npcs
-     *          - Has stats of players, health, damage, etc.
-     * 
-     * Updates:
-     * 
-     */
-    internal class Player : GameObject
+    enum Walking
     {
-        //fields
-        private int width;
-        private int height;
-        private int health;
+        Left,
+        Right,
+        Up,
+        Down
+    }
+    public class Player : GameObject
+    {
 
-        //property
-        public int Health
+        private int frame;
+        private double timeCounter;
+        private double timePerFrame;
+
+        // Constants for spriteSheet
+        const int WalkFrameCount = 5;
+        const int VerticalPlayerOffsetY = 10;
+        const int HorizontalPlayerOffsetY = 80;
+        const int PlayerHeight = 60;     // The height of a single frame
+        const int PlayerWidth = 64;      // The width of a single frame
+
+        Walking walkingState;
+        private static int health;
+        public static int Health
         {
             get { return health; }
+            set
+            {
+                health = value;
+            }
         }
 
         //constructor
-        public Player(int width, int height, Texture2D texture, Rectangle position) : base(position, texture)
+        public Player(Vector2 position, Texture2D asset)
+            : base(position, asset)
         {
-            this.width = width;
-            this.height = height;
-            health = 1000;
+            frame = 0;
+            timeCounter = 0;
+            timePerFrame = 0.1;
+            Health = 5;
         }
 
-        //methods
-        public override void Update(GameTime gameTime)
-        {
-            int speed = 4;
-            KeyboardState kbstate = Keyboard.GetState();
 
-            if (kbstate.IsKeyDown(Keys.W))
+        public void Movement(KeyboardState currentKbState)
+        {
+            if (currentKbState.IsKeyDown(Keys.W))
             {
-                position.Y -= speed;
-                if (position.Y < 0)
-                {
-                    position.Y = 0;
-                }
+                position.Y -= 4f;
+                walkingState = Walking.Up;
+
             }
-            if (kbstate.IsKeyDown(Keys.A))
+            if (currentKbState.IsKeyDown(Keys.A))
             {
-                position.X -= speed;
-                if (position.X < 0)
-                {
-                    position.X = 0;
-                }
+                position.X -= 4f;
+                walkingState = Walking.Left;
+
             }
-            if (kbstate.IsKeyDown(Keys.S))
+            if (currentKbState.IsKeyDown(Keys.S))
             {
-                position.Y += speed;
-                if (position.Y > 1120)
-                {
-                    position.Y = 1120;
-                }
+                position.Y += 4f;
+                walkingState = Walking.Down;
+
             }
-            if (kbstate.IsKeyDown(Keys.D))
+            if (currentKbState.IsKeyDown(Keys.D))
             {
-                position.X += speed;
-                if (position.X > 1120)
-                {
-                    position.X = 1120;
-                }
+                position.X += 4f;
+                walkingState = Walking.Right;
             }
         }
-        public void takeDamage()
+        public override void Update(GameTime gametime, KeyboardState currentKbState)
         {
-            health -= 1;
+            Movement(currentKbState);
+            UpdateAnimation(gametime);
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+            switch (walkingState)
+            {
+                case Walking.Up:
+                    DrawWalkingVertical(SpriteEffects.FlipVertically, sb);
+                    break;
+                case Walking.Left:
+                    DrawWalkingHorizontal(SpriteEffects.None, sb);
+                    break;
+                case Walking.Down:
+                    DrawWalkingVertical(SpriteEffects.None, sb);
+                    break;
+                case Walking.Right:
+                    DrawWalkingHorizontal(SpriteEffects.FlipHorizontally, sb);
+                    break;
+            }
+        }
+        private void DrawWalkingHorizontal(SpriteEffects flipSprite, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                Player.Texture,                         // - The texture to draw
+                Position,                               // - Where to draw it
+                new Rectangle(                          // - The rectangle to draw
+                    frame * PlayerWidth,
+                    HorizontalPlayerOffsetY,
+                    PlayerWidth,
+                    PlayerHeight),
+                Color.White,                            // - No color
+                0,                                      // - No Rotation
+                Vector2.Zero,                           // - Start counting in the second row
+                1.0f,                                   // - no scale change
+                flipSprite, 0);                         // - flip if necessary
+        }
+
+        private void DrawWalkingVertical(SpriteEffects flipSprite, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                Player.Texture,                         // - The texture to draw
+                Position,                               // - Where to draw it
+                new Rectangle(                          // - The rectangle to draw
+                    frame * PlayerWidth,
+                    VerticalPlayerOffsetY,
+                    PlayerWidth,
+                    PlayerHeight),
+                Color.White,                            // - No color
+                0,                                      // - No Rotation
+                Vector2.Zero,                           // - Start counting in the second row
+                1.0f,                                   // - no scale change
+                flipSprite,                             // - flip if necessary
+                0);
+        }
+        public void UpdateAnimation(GameTime gameTime)
+        {
+            timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            // If enough time has passed:
+            if (timeCounter >= timePerFrame)
+            {
+                frame += 1;                     // Adjust the frame to the next image
+
+                if (frame > WalkFrameCount)    //double check bounds of frames
+                {
+                    frame = 0;
+                }
+
+                timeCounter -= timePerFrame;
+            }
+        }
+    
+    public static void TakeDamage()
+        {
+            Health -= 1;
         }
     }
 }

@@ -15,10 +15,12 @@ namespace GraveyardBattlefield
      * Updates:
      * 
      */
-    enum GameMode
+    public enum Stage
     {
-        Menu,
-        Waves,
+        Main,
+        Wave1,
+        Wave2,
+        FinalWave,
         GameOver
     }
     public class Game1 : Game
@@ -26,7 +28,8 @@ namespace GraveyardBattlefield
         //fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private GameMode currentMode = GameMode.Menu;
+        private Stage gameState = Stage.Main;
+
         private Player player;
         private List<Enemy> Zombies = new List<Enemy>();
         private KeyboardState previousKBState;
@@ -42,9 +45,10 @@ namespace GraveyardBattlefield
         private List<bullet> bullets = new List<bullet>();
 
         //the player and zombie assets
-        Texture2D playerTexture;
-        Rectangle playerPosition;
-        Texture2D zombieTexture;
+        private Texture2D menuScreen;
+        private Texture2D zombieAsset;
+        private Texture2D playerAsset;
+        private Texture2D gameOverAsset;
 
         //fonts
         private SpriteFont Font;
@@ -71,10 +75,11 @@ namespace GraveyardBattlefield
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //load the textures and rectangle and intialize the player object
-            playerTexture = this.Content.Load<Texture2D>("playerPlaceHolder1");
-            playerPosition = new Rectangle(width / 2, height / 2, playerTexture.Width, playerTexture.Height);
-            player = new Player(width, height, playerTexture, playerPosition);
-            zombieTexture = this.Content.Load<Texture2D>("zombiePlaceHolder1");
+            zombieAsset = this.Content.Load<Texture2D>("zombieSpriteSheet");
+            playerAsset = this.Content.Load<Texture2D>("playerSpriteSheet");
+            //menuScreen = this.Content.Load<Texture2D>("");
+            //gameOverAsset = this.Content.Load<Texture2D>("");
+            player = new Player(new Vector2(300, 300), playerAsset);
 
             //load bullet asset
             bulletTexture = this.Content.Load<Texture2D>("bulletPlaceHolder"); 
@@ -90,26 +95,25 @@ namespace GraveyardBattlefield
 
             //check current keyboard state then update
             KeyboardState kbstate = Keyboard.GetState();
-            switch (currentMode)
+            switch (gameState)
             {
-                case GameMode.Menu:
+                case Stage.Main:
                     {
                         Zombies.Clear();
-                        if (SingleKeyPress(Keys.Enter, kbstate) == true)
+                        if (Process.SingleKeyPress(kbstate, Keys.Enter))
                         {
-                            currentMode = GameMode.Waves;
-                            previousKBState = kbstate;
+                            gameState = Stage.Wave1;
                         }
                         NextWave();
                         break;
                     }
-                case GameMode.Waves:
+                case Stage.Wave1:
                     {
-                        player.Update(gameTime);
-                        addBullet();
+                        player.Update(gameTime, kbstate);
+                        //addBullet();
                         foreach(Enemy zombies in Zombies)
                         {
-                            zombies.Update(gameTime,player);
+                            zombies.Update(gameTime, kbstate);
                         }
                         foreach (bullet bullets in bullets)
                         {
@@ -119,18 +123,17 @@ namespace GraveyardBattlefield
                         //loop through the game
                         break;
                     }
-                case GameMode.GameOver:
+                case Stage.GameOver:
                     {
-                        if (SingleKeyPress(Keys.Enter, kbstate) == true)
+                        if (Process.SingleKeyPress(kbstate, Keys.Enter))
                         {
-                            currentMode = GameMode.Menu;
-                            previousKBState = kbstate;
+                            gameState = Stage.Main;
                             wave = 1;
                         }
                         break;
                     }
             }
-
+            Process.PreviousKbState = kbstate;
             base.Update(gameTime);
         }
 
@@ -140,18 +143,19 @@ namespace GraveyardBattlefield
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            switch (currentMode)
+            switch (gameState)
             {
-                case GameMode.Menu:
+                case Stage.Main:
                     {
                         //the main menu
                         _spriteBatch.DrawString(Font, $"Main menu", new Vector2(300, 600), Color.Black);
                         break;
                     }
-                case GameMode.Waves:
+                case Stage.Wave1:
                     {
-                        _spriteBatch.Draw(playerTexture, player.Position, Color.White);
-                        _spriteBatch.DrawString(Font, $"player remaining health: {player.Health}\n" +
+                        GraphicsDevice.Clear(Color.LightGreen);
+                        player.Draw(_spriteBatch);
+                        _spriteBatch.DrawString(Font, $"player remaining health: {Player.Health}\n" +
                             $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.Black);
                         player.Draw(_spriteBatch);
                         foreach(Enemy zombies in Zombies)
@@ -164,7 +168,7 @@ namespace GraveyardBattlefield
                         }
                         break;
                     }
-                case GameMode.GameOver:
+                case Stage.GameOver:
                     {
                         //the main menu
                         break;
@@ -180,10 +184,11 @@ namespace GraveyardBattlefield
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(0, rdm.Next(0, 1120), zombieTexture.Width, zombieTexture.Height)));
-                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(1120, rdm.Next(0, 1120), zombieTexture.Width, zombieTexture.Height)));
-                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(rdm.Next(0, 1120), 0, zombieTexture.Width, zombieTexture.Height)));
-                    Zombies.Add(new Enemy(width, height, zombieTexture, new Rectangle(rdm.Next(0, 1120), 1120, zombieTexture.Width, zombieTexture.Height)));
+                    Zombies.Add(new Enemy(new Vector2(0, rdm.Next(0, 1120)), zombieAsset));
+                    Zombies.Add(new Enemy(new Vector2(1120, rdm.Next(0, 1120)), zombieAsset));
+                    Zombies.Add(new Enemy(new Vector2(rdm.Next(0, 1120), 0), zombieAsset));
+                    Zombies.Add(new Enemy(new Vector2(rdm.Next(0, 1120), 1120), zombieAsset));
+
                 }
             }
             //sprint 4
@@ -191,6 +196,8 @@ namespace GraveyardBattlefield
             else if(wave == 3) { } 
         }
 
+        //need to convert 
+        /*
         private void addBullet()
         {
             KeyboardState kbstate = Keyboard.GetState();
@@ -200,7 +207,7 @@ namespace GraveyardBattlefield
             {
                 if (kbstate.IsKeyDown(Keys.Up))
                 {
-                    bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "up"));
+                    bullets.Add(new bullet(width, height, new Rectangle(Player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "up"));
                     playerBullet--;
                 }
                 if (kbstate.IsKeyDown(Keys.Left))
@@ -220,6 +227,7 @@ namespace GraveyardBattlefield
                 }
             }
 
+        
             //if we still have the backup bullets
             if(playerBackupBullet >= 150)
             {
@@ -230,18 +238,7 @@ namespace GraveyardBattlefield
                 }
             }
         }
-
-        //check for single key
-        private bool SingleKeyPress(Keys key, KeyboardState kbState)
-        {
-            if (kbState.IsKeyDown(key) == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        */
+        
     }
 }

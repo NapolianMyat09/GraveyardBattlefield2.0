@@ -23,68 +23,100 @@ namespace GraveyardBattlefield
      */
     internal class Enemy
     {
-        //fields
-        private int width;
-        private int height;
-        protected Rectangle position;
-        protected Texture2D texture;
+        private int frame;
+        private double timeCounter;
+        private double timePerFrame;
 
-        //property
-        public Rectangle Position
+        // Constants for spriteSheet
+        const int WalkFrameCount = 3;
+        const int VerticalPlayerOffsetY = 90;
+        const int ZombieHeight = 170;     // The height of a single frame
+        const int ZombieWidth = 205;      // The width of a single frame
+
+
+        private Vector2 position;
+        public int Health { get; set; }
+
+        public Vector2 Position { get { return position; } set { position = value; } }
+
+        public Texture2D Asset { get; set; }
+        public Enemy(Vector2 position, Texture2D asset)
+
         {
-            get { return position; }
+            Position = position;
+            Asset = asset;
+            Health = 3;
+            frame = 0;
+            timePerFrame = 0.1f;
         }
-
-        //constructor
-        public Enemy(int width, int height, Texture2D texture, Rectangle position)
+        public void Movement()
         {
-            this.width = width;
-            this.height = height;
-            this.position = position;
-            this.texture = texture;
+
+            if (Position != Player.Position)
+            {
+                if (Position.X < Player.Position.X)
+                {
+                    position.X += 2;
+                }
+                if (Position.X > Player.Position.X)
+                {
+                    position.X -= 2;
+
+                }
+                if (position.Y < Player.Position.Y)
+                {
+                    position.Y += 2;
+
+                }
+                if (position.Y > Player.Position.Y)
+                {
+                    position.Y--;
+                }
+            }
+
         }
-
-        public void Update(GameTime gametime, Player player)
+        public void Update(GameTime gametime, KeyboardState currentKbState)
         {
-            bool XequalPlayer = false;
-            bool YequalPlayer = false;
-
-            //change X value base on player's X value
-            if (player.Position.X + player.Position.Width - 20 < position.X)
-            {
-                position.X -= 2;
-                XequalPlayer = false;
-            }
-            else if (player.Position.X - player.Position.Width + 20 > position.X)
-            {
-                position.X += 2;
-                XequalPlayer = false;
-            }
-            else XequalPlayer = true;
-
-            //change Y value base on player's Y value
-            if (player.Position.Y + player.Position.Height - 20 < position.Y)
-            {
-                position.Y -= 2;
-                YequalPlayer = false;
-            }
-            else if (player.Position.Y - player.Position.Height + 20 > position.Y)
-            {
-                position.Y += 2;
-                YequalPlayer = false;
-            }
-            else YequalPlayer = true;
-
+            Movement();
+            UpdateAnimation(gametime);
             //if player's x and y value both intersect with zombie's x and y value, then take damage
-            if(XequalPlayer == true && YequalPlayer == true)
+            if (Player.Position == this.Position )
             {
-                player.takeDamage();
+                Player.TakeDamage();
             }
         }
 
         public void Draw(SpriteBatch sb)
         {
-             sb.Draw(texture, position, Color.White);
+            sb.Draw(Asset,
+                Position,
+                new Rectangle(frame * ZombieWidth,
+                VerticalPlayerOffsetY,
+                ZombieWidth,
+                ZombieHeight),
+                Color.White,                                     // - No Rotation
+                0,
+                Vector2.Zero,                           // - start counting in first row
+                0.5f,                                   // - 50% scale change
+                SpriteEffects.None,
+                0); ;
+        }
+        public void UpdateAnimation(GameTime gameTime)
+        {
+            timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            // If enough time has passed:
+            if (timeCounter >= timePerFrame)
+            {
+                frame += 1;                     // Adjust the frame to the next image
+
+                if (frame > WalkFrameCount)    //double check bounds of frames
+                {
+                    frame = 0;
+                }
+
+                timeCounter -= timePerFrame;
+            }
         }
     }
 }

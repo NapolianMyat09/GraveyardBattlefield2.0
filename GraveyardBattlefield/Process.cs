@@ -9,28 +9,29 @@ using System.IO;
 namespace GraveyardBattlefield
 {
     /*
-     * Project: Graveyard BattleField
-     * Names: Tracy Chun, Jason Wang, Napolian Myat
-     * Class: Process
-     * Purpose: - methods and fields that deal with processing data 
-     * 
-     * Updates:
-     * 
-     */
-     class Process
+      * Project: Graveyard BattleField
+      * Names: Tracy Chun, Jason Wang, Napolian Myat
+      * Class: Process
+      * Purpose: - methods and fields that deal with processing data 
+      * 
+      * Updates:
+      * 
+      */
+    class Process
     {
+
         //fields
-        public static KeyboardState prevKbState;
-        public static KeyboardState currentkbState = Keyboard.GetState();
-        
+        private static KeyboardState previousKbState = Keyboard.GetState();
+
+        public static KeyboardState PreviousKbState { get; set; }
         /// <summary>
         /// Checks if the key processed through is pressed by checking keyboard states
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="kbState"></param>
-        public static bool SingleKeyPress(Keys key, KeyboardState kbState)
+        /// <param name="currentKbState"></param>
+        public static bool SingleKeyPress(KeyboardState currentKbState, Keys key)
         {
-            if(kbState.IsKeyDown(key) && prevKbState.IsKeyUp(key))
+            if (currentKbState.IsKeyDown(key) && previousKbState.IsKeyUp(key))
             {
                 return true;
             }
@@ -39,6 +40,7 @@ namespace GraveyardBattlefield
                 return false;
             }
         }
+
 
         /// <summary>
         /// load text file with data in a specific format 
@@ -58,7 +60,7 @@ namespace GraveyardBattlefield
                     string line = null;
                     List<string> lines = new List<string>();
                     int i = 0;
-                    while((line = output.ReadLine()) != null)
+                    while ((line = output.ReadLine()) != null)
                     {
                         lines[i] = output.ReadLine();
                         i++;
@@ -68,7 +70,7 @@ namespace GraveyardBattlefield
                      */
                     output.Close();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine("There seems to an error loading the text file: " + ex.Message);
                 }

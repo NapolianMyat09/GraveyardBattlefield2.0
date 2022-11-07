@@ -5,31 +5,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Input;
 
 namespace GraveyardBattlefield
 {
-    internal abstract class GameObject
+    public abstract class GameObject
     {
         //fields
-        protected Rectangle position;
-        protected Texture2D texture;
+        protected static Vector2 position;
+        protected static Texture2D texture;
+
 
         //property
-        public Rectangle Position
+        public static Vector2 Position
         {
             get { return position; }
+            set { position = value; }
         }
+        public static Texture2D Texture { get; set; }
 
         //constructor
-        protected GameObject(Rectangle position, Texture2D texture)
+        protected GameObject(Vector2 position, Texture2D texture)
         {
-            this.position = position;
-            this.texture = texture;
+            GameObject.Position = position;
+            GameObject.Texture = texture;
         }
 
         //methods
-        public virtual void Draw(SpriteBatch sb) { }
+        public virtual void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, Position, Color.White);
+        }
 
-        public abstract void Update(GameTime gametime);
+        public virtual void Update(GameTime gametime, KeyboardState currentKBState) { }
     }
 }
