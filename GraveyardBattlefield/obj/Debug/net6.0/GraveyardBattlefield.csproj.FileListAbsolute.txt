@@ -115,3 +115,4 @@ D:\Profiles\nm8011\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug
 D:\Profiles\nm8011\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net6.0\GraveyardBattlefield.pdb
 D:\Profiles\nm8011\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net6.0\GraveyardBattlefield.genruntimeconfig.cache
 D:\Profiles\nm8011\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net6.0\ref\GraveyardBattlefield.dll
+D:\Profiles\nm8011\source\repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\MenuImage.xnb

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MO8cN0/Gtp6Sct6Fs2S3oAq7QPtL+U8WpfDdZXFRHuD+Uk7E5cQhmxMbWqgLQclZpXiLFwMyk5Fon7oiS26qBg==",
+  "dgSpecHash": "29jm6pM4InTf3yiiuMq52nKHSYGDEEVm96Nlao39r4w7BYkPFR75pOtW56Cm+7JrR2SXRRFPFrz54BAZHBsVdQ==",
   "success": true,
-  "projectFilePath": "D:\\Profiles\\nm8011\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+  "projectFilePath": "D:\\Profiles\\nm8011\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
   "expectedPackageFiles": [
     "D:\\Profiles\\nm8011\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
     "D:\\Profiles\\nm8011\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"

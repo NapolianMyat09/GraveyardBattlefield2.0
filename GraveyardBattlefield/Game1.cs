@@ -49,6 +49,7 @@ namespace GraveyardBattlefield
         private Texture2D zombieAsset;
         private Texture2D playerAsset;
         private Texture2D gameOverAsset;
+        private Texture2D menuImage;
 
         //fonts
         private SpriteFont Font;
@@ -77,6 +78,8 @@ namespace GraveyardBattlefield
             //load the textures and rectangle and intialize the player object
             zombieAsset = this.Content.Load<Texture2D>("zombieSpriteSheet");
             playerAsset = this.Content.Load<Texture2D>("playerSpriteSheet");
+            menuImage = this.Content.Load<Texture2D>("MenuImage");
+
             //menuScreen = this.Content.Load<Texture2D>("");
             //gameOverAsset = this.Content.Load<Texture2D>("");
             player = new Player(new Vector2(300, 300), playerAsset);
@@ -99,8 +102,8 @@ namespace GraveyardBattlefield
             {
                 case Stage.Main:
                     {
-                        Zombies.Clear();
-                        resetGame();
+                        Zombies.Clear(); //Reset zombies
+                        resetGame(); //Reset previous progress
                         if (Process.SingleKeyPress(kbstate, Keys.Enter))
                         {
                             gameState = Stage.Wave1;
@@ -153,7 +156,8 @@ namespace GraveyardBattlefield
                 case Stage.Main:
                     {
                         //the main menu
-                        _spriteBatch.DrawString(Font, $"Main menu", new Vector2(300, 600), Color.Black);
+                        _spriteBatch.Draw(menuImage, new Rectangle(0, 0, 1200, 1200), Color.White);
+                        _spriteBatch.DrawString(Font, $"Press 'Enter' to start the game", new Vector2(300, 650), Color.White);
                         break;
                     }
                 case Stage.Wave1:

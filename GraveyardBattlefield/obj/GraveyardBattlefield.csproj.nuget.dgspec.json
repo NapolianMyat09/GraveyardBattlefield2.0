@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Profiles\\nm8011\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {}
+    "D:\\Profiles\\nm8011\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {}
   },
   "projects": {
-    "D:\\Profiles\\nm8011\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {
+    "D:\\Profiles\\nm8011\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Profiles\\nm8011\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+        "projectUniqueName": "D:\\Profiles\\nm8011\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
         "projectName": "GraveyardBattlefield",
-        "projectPath": "D:\\Profiles\\nm8011\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+        "projectPath": "D:\\Profiles\\nm8011\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
         "packagesPath": "D:\\Profiles\\nm8011\\.nuget\\packages\\",
-        "outputPath": "D:\\Profiles\\nm8011\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\obj\\",
+        "outputPath": "D:\\Profiles\\nm8011\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "Z:\\IGMProfile\\AppData\\NuGet\\NuGet.Config",
