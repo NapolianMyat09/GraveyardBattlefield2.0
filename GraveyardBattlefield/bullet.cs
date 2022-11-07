@@ -11,7 +11,7 @@ namespace GraveyardBattlefield
 {
     internal class bullet
     {
-        //fields
+        //FIELDS
         private int width;
         private int height;
         private int bulletSpeed;
@@ -19,7 +19,7 @@ namespace GraveyardBattlefield
         protected Texture2D texture;
         private string shootAngle;
 
-        //property
+        //PROPERTIES
         public Rectangle Position
         {
             get { return position; }
@@ -30,6 +30,7 @@ namespace GraveyardBattlefield
             get { return bulletSpeed; }
         }
 
+        //CONSTRUCTOR
         public bullet(int width, int height, Rectangle position, Texture2D texture, string shootAngle)
         { 
             this.width = width;
@@ -40,12 +41,13 @@ namespace GraveyardBattlefield
             bulletSpeed = 25;
         }
 
-        //methods
+        //METHODS
+        //Bullet shooting
         public void shootBullet()
         {
             if (shootAngle == "up")
             {
-                position.Y -= bulletSpeed;
+                position.Y -= bulletSpeed; //(where it is shot position - speed of bullet) will give us the direction of bullet projectile movement
             }
             if (shootAngle == "left")
             {
@@ -62,6 +64,7 @@ namespace GraveyardBattlefield
 
         }
 
+        //Draw bullet
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, position, Color.White);

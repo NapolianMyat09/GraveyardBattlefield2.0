@@ -18,12 +18,12 @@ namespace GraveyardBattlefield
     }
     public class Player : GameObject
     {
-
+        //FIELDS
         private int frame;
         private double timeCounter;
         private double timePerFrame;
 
-        // Constants for spriteSheet
+        // CONSTANT FOR SPRITESHEETS
         const int WalkFrameCount = 5;
         const int VerticalPlayerOffsetY = 10;
         const int HorizontalPlayerOffsetY = 80;
@@ -31,7 +31,11 @@ namespace GraveyardBattlefield
         const int PlayerWidth = 64;      // The width of a single frame
 
         Walking walkingState;
+
+        //PLAYER FIELDS
         private int health;
+
+        //PROPERTIES
         public int Health
         {
             get { return health; }
@@ -41,7 +45,7 @@ namespace GraveyardBattlefield
             }
         }
 
-        //constructor
+        //CONSTRUCTOR
         public Player(Vector2 position, Texture2D asset)
             : base(position, asset)
         {
@@ -51,10 +55,10 @@ namespace GraveyardBattlefield
             Health = 300;
         }
 
-
+        //PLAYER MOVEMENT
         public void Movement(KeyboardState currentKbState)
         {
-            if (currentKbState.IsKeyDown(Keys.W))
+            if (currentKbState.IsKeyDown(Keys.W)) //W for up
             {
                 position.Y -= 4f;
                 if (position.Y < 0)
@@ -64,7 +68,7 @@ namespace GraveyardBattlefield
                 walkingState = Walking.Up;
 
             }
-            if (currentKbState.IsKeyDown(Keys.A))
+            if (currentKbState.IsKeyDown(Keys.A)) //A for left
             {
                 position.X -= 4f;
                 if (position.X < 0)
@@ -74,7 +78,7 @@ namespace GraveyardBattlefield
                 walkingState = Walking.Left;
 
             }
-            if (currentKbState.IsKeyDown(Keys.S))
+            if (currentKbState.IsKeyDown(Keys.S)) //S for down
             {
                 position.Y += 4f;
                 if (position.Y > 1120)
@@ -84,7 +88,7 @@ namespace GraveyardBattlefield
                 walkingState = Walking.Down;
 
             }
-            if (currentKbState.IsKeyDown(Keys.D))
+            if (currentKbState.IsKeyDown(Keys.D)) //D for right
             {
                 position.X += 4f;
                 if (position.X > 1120)
@@ -94,11 +98,15 @@ namespace GraveyardBattlefield
                 walkingState = Walking.Right;
             }
         }
+
+        //Update
         public override void Update(GameTime gametime, KeyboardState currentKbState)
         {
             Movement(currentKbState);
             UpdateAnimation(gametime);
         }
+
+        //Draw according to movement
         public override void Draw(SpriteBatch sb)
         {
             switch (walkingState)
@@ -117,6 +125,9 @@ namespace GraveyardBattlefield
                     break;
             }
         }
+
+        //MOVEMENT METHODS
+        //Horizontal - sprite will just be left as is or flipped horizontally respectively for left and right
         private void DrawWalkingHorizontal(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
@@ -134,6 +145,7 @@ namespace GraveyardBattlefield
                 flipSprite, 0);                         // - flip if necessary
         }
 
+        //Verticle downward
         private void DrawWalkingVertical(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
@@ -151,6 +163,8 @@ namespace GraveyardBattlefield
                 flipSprite,                             // - flip if necessary
                 0);
         }
+        
+        //Verticle upward - Since we cant just rotate this b/c that would look wrong, the color is changed to black so that it looks like player is facing upward
         private void DrawWalkingVerticalUp(SpriteEffects flipSprite, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
@@ -161,13 +175,15 @@ namespace GraveyardBattlefield
                     VerticalPlayerOffsetY,
                     PlayerWidth,
                     PlayerHeight),
-                Color.Black,                            // - No color
+                Color.Black,                            // - Black
                 0,                                      // - No Rotation
                 Vector2.Zero,                           // - Start counting in the second row
                 1.0f,                                   // - no scale change
                 flipSprite,                             // - flip if necessary
                 0);
         }
+
+        //UPDATE FOR ANIMATION
         public void UpdateAnimation(GameTime gameTime)
         {
             timeCounter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -186,9 +202,10 @@ namespace GraveyardBattlefield
             }
         }
     
-    public void TakeDamage()
+        //FOR PLAYER TAKING DMG
+        public void TakeDamage()
         {
-            Health -= 1;
+            Health -= 1; //will decrease count for dmg taken
         }
     }
 }
