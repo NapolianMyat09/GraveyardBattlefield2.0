@@ -111,6 +111,10 @@ namespace GraveyardBattlefield
                         {
                             zombies.Update(gameTime,player);
                         }
+                        foreach (bullet bullets in bullets)
+                        {
+                            bullets.shootBullet();
+                        }
 
                         //loop through the game
                         break;
@@ -157,7 +161,6 @@ namespace GraveyardBattlefield
                         foreach(bullet bullets in bullets)
                         {
                             bullets.Draw(_spriteBatch);
-                            bullets.shootBullet();
                         }
                         break;
                     }
@@ -191,21 +194,40 @@ namespace GraveyardBattlefield
         private void addBullet()
         {
             KeyboardState kbstate = Keyboard.GetState();
-            if (kbstate.IsKeyDown(Keys.Up))
+
+            //while player did not run out of bullets
+            if (playerBullet > 0)
             {
-                bullets.Add(new bullet(width, height, new Rectangle(player.Position.X,player.Position.Y,bulletTexture.Width,bulletTexture.Height) ,bulletTexture,"up"));
+                if (kbstate.IsKeyDown(Keys.Up))
+                {
+                    bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "up"));
+                    playerBullet--;
+                }
+                if (kbstate.IsKeyDown(Keys.Left))
+                {
+                    bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "left"));
+                    playerBullet--;
+                }
+                if (kbstate.IsKeyDown(Keys.Down))
+                {
+                    bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "down"));
+                    playerBullet--;
+                }
+                if (kbstate.IsKeyDown(Keys.Right))
+                {
+                    bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "right"));
+                    playerBullet--;
+                }
             }
-            if (kbstate.IsKeyDown(Keys.Left))
+
+            //if we still have the backup bullets
+            if(playerBackupBullet >= 150)
             {
-                bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "left"));
-            }
-            if (kbstate.IsKeyDown(Keys.Down))
-            {
-                bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "down"));
-            }
-            if (kbstate.IsKeyDown(Keys.Right))
-            {
-                bullets.Add(new bullet(width, height, new Rectangle(player.Position.X, player.Position.Y, bulletTexture.Width, bulletTexture.Height), bulletTexture, "right"));
+                if (playerBullet == 0)
+                {
+                    playerBullet = 150;
+                    playerBackupBullet -= 150;
+                }
             }
         }
 

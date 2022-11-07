@@ -37,7 +37,7 @@ namespace GraveyardBattlefield
             this.shootAngle = shootAngle;
             this.position = position;
             this.texture = texture;
-            bulletSpeed = 10;
+            bulletSpeed = 25;
         }
 
         //methods
