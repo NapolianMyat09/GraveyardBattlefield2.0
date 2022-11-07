@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tracy\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {}
+    "C:\\Users\\tracy\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tracy\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {
+    "C:\\Users\\tracy\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tracy\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+        "projectUniqueName": "C:\\Users\\tracy\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
         "projectName": "GraveyardBattlefield",
-        "projectPath": "C:\\Users\\tracy\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
+        "projectPath": "C:\\Users\\tracy\\source\\repos\\GDAPS2GameProject\\GraveyardBattlefield\\GraveyardBattlefield.csproj",
         "packagesPath": "C:\\Users\\tracy\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\tracy\\Source\\Repos\\GDAPS2GameProject\\GraveyardBattlefield\\obj\\",
         "projectStyle": "PackageReference",
