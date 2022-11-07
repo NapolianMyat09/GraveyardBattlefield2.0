@@ -104,7 +104,7 @@ namespace GraveyardBattlefield
             switch (walkingState)
             {
                 case Walking.Up:
-                    DrawWalkingVertical(SpriteEffects.None, sb);
+                    DrawWalkingVerticalUp(SpriteEffects.None, sb);
                     break;
                 case Walking.Left:
                     DrawWalkingHorizontal(SpriteEffects.None, sb);
@@ -145,6 +145,23 @@ namespace GraveyardBattlefield
                     PlayerWidth,
                     PlayerHeight),
                 Color.White,                            // - No color
+                0,                                      // - No Rotation
+                Vector2.Zero,                           // - Start counting in the second row
+                1.0f,                                   // - no scale change
+                flipSprite,                             // - flip if necessary
+                0);
+        }
+        private void DrawWalkingVerticalUp(SpriteEffects flipSprite, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                Texture,                         // - The texture to draw
+                Position,                               // - Where to draw it
+                new Rectangle(                          // - The rectangle to draw
+                    frame * PlayerWidth,
+                    VerticalPlayerOffsetY,
+                    PlayerWidth,
+                    PlayerHeight),
+                Color.Black,                            // - No color
                 0,                                      // - No Rotation
                 Vector2.Zero,                           // - Start counting in the second row
                 1.0f,                                   // - no scale change
