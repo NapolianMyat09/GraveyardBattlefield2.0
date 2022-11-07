@@ -142,7 +142,7 @@ namespace GraveyardBattlefield
                     }
                 case Stage.GameOver:
                     {
-                        if (Process.SingleKeyPress(kbstate, Keys.Enter))
+                        if (Process.SingleKeyPress(kbstate, Keys.Space))
                         {
                             gameState = Stage.Main;
                             wave = 1;
@@ -188,7 +188,7 @@ namespace GraveyardBattlefield
                     }
                 case Stage.GameOver:
                     {
-                        _spriteBatch.DrawString(Font, $"Press Enter to go back to Main menu", new Vector2(300, 600), Color.Black);
+                        _spriteBatch.DrawString(Font, $"Press Space to go back to Main menu", new Vector2(300, 600), Color.Black);
                         break;
                     }
             }

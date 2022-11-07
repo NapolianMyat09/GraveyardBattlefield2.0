@@ -124,3 +124,11 @@ C:\Users\tracy\source\repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net
 C:\Users\tracy\source\repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieHead.xnb
 C:\Users\tracy\source\repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieKid.xnb
 C:\Users\tracy\source\repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieMan.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\MenuImage.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\bullet.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\graveyard.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\mainMenuScreen.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\skeleton.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieHead.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieKid.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieMan.xnb
