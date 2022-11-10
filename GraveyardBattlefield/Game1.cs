@@ -101,7 +101,7 @@ namespace GraveyardBattlefield
             //MENU
             menuScreen = this.Content.Load<Texture2D>("mainMenuScreen");
             startButton = this.Content.Load<Texture2D>("StartButton");
-            startButtonRect = new Rectangle((width - 350)/2, 600, 350, 250);
+            startButtonRect = new Rectangle((width - 350)/2, 700, 350, 150);
 
             //gameOverAsset = this.Content.Load<Texture2D>("");
             player = new Player(new Vector2(300, 300), playerAsset);
