@@ -80,8 +80,8 @@ namespace GraveyardBattlefield
         {
             
             // TODO: Add your initialization logic here
-            _graphics.PreferredBackBufferWidth = 1600;
-            _graphics.PreferredBackBufferHeight = 1000;
+            _graphics.PreferredBackBufferWidth = 1500;
+            _graphics.PreferredBackBufferHeight = 950;
             width = _graphics.PreferredBackBufferWidth;
             height = _graphics.PreferredBackBufferHeight;
             _graphics.ApplyChanges();
@@ -100,8 +100,8 @@ namespace GraveyardBattlefield
 
             //MENU
             menuScreen = this.Content.Load<Texture2D>("mainMenuScreen");
-            //startButton = this.Content.Load<Texture2D>("StartButton");
-            //startButtonRect = new Rectangle(10, 10, 100, 100);
+            startButton = this.Content.Load<Texture2D>("StartButton");
+            startButtonRect = new Rectangle((width - 350)/2, 600, 350, 250);
 
             //gameOverAsset = this.Content.Load<Texture2D>("");
             player = new Player(new Vector2(300, 300), playerAsset);
@@ -128,11 +128,14 @@ namespace GraveyardBattlefield
                     {
                         Zombies.Clear(); //Reset zombies
                         resetGame(); //Reset previous progress
-                        if (Process.SingleKeyPress(kbstate, Keys.Enter))
+                        //if (Process.SingleKeyPress(kbstate, Keys.Enter))
+                        //{
+                        //    gameState = Stage.Wave1;
+                        //}
+                        if(Process.MouseClick(mState, startButtonRect))
                         {
                             gameState = Stage.Wave1;
                         }
-                        //if(Process.MouseClick(mState, startButtonRect))
                         NextWave();
                         break;
                     }
@@ -182,8 +185,9 @@ namespace GraveyardBattlefield
                     {
                         //the main menu
                         _spriteBatch.Draw(menuScreen, new Rectangle(0, 0, width, height), Color.White);
-                        _spriteBatch.DrawString(Font, $"Press 'Enter' to start the game", new Vector2(300, 650), Color.White);
-                        //_spriteBatch.Draw(startButton, startButtonRect, Color.White);
+                        //_spriteBatch.DrawString(Font, $"Press 'Enter' to start the game", new Vector2(300, 650), Color.White);
+                        //Will have startButton start the game instead of pressing enter
+                        _spriteBatch.Draw(startButton, startButtonRect, Color.DarkRed);
                         break;
                     }
                 case Stage.Wave1:
