@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System;
+using System.Threading;
 
 namespace GraveyardBattlefield
 {
@@ -66,6 +67,7 @@ namespace GraveyardBattlefield
         private Texture2D startButton;
         //StartButton Rect
         private Rectangle startButtonRect;
+        private int countdown;
 
         //fonts
         private SpriteFont Font;
@@ -84,6 +86,9 @@ namespace GraveyardBattlefield
             _graphics.PreferredBackBufferHeight = 950;
             width = _graphics.PreferredBackBufferWidth;
             height = _graphics.PreferredBackBufferHeight;
+
+            //Timer
+            countdown = 5*60;
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -127,34 +132,47 @@ namespace GraveyardBattlefield
                 case Stage.Main:
                     {
                         Zombies.Clear(); //Reset zombies
-                        resetGame(); //Reset previous progress
+                        ResetGame(); //Reset previous progress
+
+                        //for keyboard press enter, will start game
                         //if (Process.SingleKeyPress(kbstate, Keys.Enter))
                         //{
                         //    gameState = Stage.Wave1;
                         //}
+
+                        //Leftclick start button, will start game
                         if(Process.MouseClick(mState, startButtonRect))
                         {
-                            gameState = Stage.Wave1;
+                            gameState = Stage.Wave1; //progresses to wave1
                         }
                         NextWave();
                         break;
                     }
                 case Stage.Wave1:
                     {
+                        countdown--;
+                        //Player can still move even if countdown is not 0
                         player.Update(gameTime, kbstate);
-                        addBullet();
-                        foreach(Enemy zombies in Zombies)
+
+                        if (countdown <= 0) //implement a countdown, will load zombies when countdown reaches 0
                         {
-                            zombies.Update(gameTime, player);
+                            addBullet();
+                            foreach (Enemy zombies in Zombies)
+                            {
+                                zombies.Update(gameTime, player);
+                            }
                         }
+
+                        //can still shoot even if countdown does not reach 0
                         foreach (bullet bullets in bullets)
                         {
                             bullets.shootBullet();
                         }
 
-                        if(player.Health <= 0)
+                        if (player.Health <= 0) //if player health reaches 0 or less
                         {
-                            gameState = Stage.GameOver;
+                            player.Health = 0; //we want to display health = 0 instead of negatives for whatever reason
+                            gameState = Stage.GameOver; //display gamestate gameover
                         }
                         //loop through the game
                         break;
@@ -192,19 +210,40 @@ namespace GraveyardBattlefield
                     }
                 case Stage.Wave1:
                     {
+                        //Before we start the game, we want to have a countdown to get players to be ready
+                        countdown--;
+
+                        //DONT DRAW ANYTHING BEFORE BACKGROUND OTHERWISE IT WONT SHOW
+                        //DrawBackGround
                         _spriteBatch.Draw(background, new Rectangle(0, 0, width, height), Color.White);
+
+                        //Draw STATS
+                        _spriteBatch.DrawString(Font, $"player remaining health: {player.Health}\n" + //Health
+                            $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
+                        if (countdown > 0) //draw countdown
+                        {
+                            _spriteBatch.DrawString(Font, $"Controls:" +
+                                $"\nW - Up          UpArrowKey - Shoot Upward" +
+                                $"\nA - Left        LeftArrowKey - Shoot Left" +
+                                $"\nS - Down        DownArrowKey - Shoot Downward" +
+                                $"\nD - Right       RightArrowKey - Shoot Right"
+                                , new Vector2(400, (height - 100) / 2), Color.White);
+                            _spriteBatch.DrawString(Font, $"{countdown / 60} seconds before zombies break in."
+                                , new Vector2(500, (height-200)/2), Color.White);//num of seconds remaining
+                        }
+
+                        //DrawPLayer&Enemy Asset
                         player.Draw(_spriteBatch);
-                        _spriteBatch.DrawString(Font, $"player remaining health: {player.Health}\n" +
-                            $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White);
-                        player.Draw(_spriteBatch);
-                        foreach(Enemy zombies in Zombies)
+                        foreach (Enemy zombies in Zombies)
                         {
                             zombies.Draw(_spriteBatch);
-                        } 
-                        foreach(bullet bullets in bullets)
+                        }
+
+                        foreach (bullet bullets in bullets)
                         {
                             bullets.Draw(_spriteBatch);
                         }
+
                         break;
                     }
                 case Stage.GameOver:
@@ -276,11 +315,12 @@ namespace GraveyardBattlefield
         }
 
         //reset game method
-        public void resetGame()
+        public void ResetGame()
         {
             player.Health = 300;
             playerBullet = 150;
             playerBackupBullet = 600;
+            countdown = 5*60;
         }
         
     }
