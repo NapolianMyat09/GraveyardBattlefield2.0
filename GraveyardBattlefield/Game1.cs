@@ -26,11 +26,12 @@ namespace GraveyardBattlefield
     }
     public class Game1 : Game
     {
-        //fields
+        //FIELDS
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Stage gameState = Stage.Main;
 
+        //ASSET THAT MOVES
         private Player player;
         private List<Enemy> Zombies = new List<Enemy>();
 
@@ -39,18 +40,11 @@ namespace GraveyardBattlefield
         private MouseState previousMState;
 
         private Random rdm = new Random();
-        private static int width;
-        private static int height;
-        int wave = 1;
+        private static int width; //screen width
+        private static int height; //screen height
 
-        public static int Width
-        {
-            get { return width; }
-        }
-        public static int Height
-        {
-            get { return height; }
-        }
+        //Number of Waves
+        int wave = 1;
 
         //ammo assets
         Texture2D bulletTexture;
@@ -70,7 +64,19 @@ namespace GraveyardBattlefield
         private int countdown;
 
         //fonts
-        private SpriteFont Font;
+        private SpriteFont font;
+        private SpriteFont titleFont;
+
+        //PROPERTIES
+        public static int Width
+        {
+            get { return width; }
+        }
+        public static int Height
+        {
+            get { return height; }
+        }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -116,7 +122,7 @@ namespace GraveyardBattlefield
             bulletTexture = this.Content.Load<Texture2D>("bullet"); 
 
             //load font
-            Font = Content.Load<SpriteFont>("Font");
+            font = Content.Load<SpriteFont>("Font");
         }
 
         protected override void Update(GameTime gameTime)
@@ -218,17 +224,17 @@ namespace GraveyardBattlefield
                         _spriteBatch.Draw(background, new Rectangle(0, 0, width, height), Color.White);
 
                         //Draw STATS
-                        _spriteBatch.DrawString(Font, $"player remaining health: {player.Health}\n" + //Health
+                        _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
                             $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
                         if (countdown > 0) //draw countdown
                         {
-                            _spriteBatch.DrawString(Font, $"Controls:" +
+                            _spriteBatch.DrawString(font, $"Controls:" +
                                 $"\nW - Up          UpArrowKey - Shoot Upward" +
                                 $"\nA - Left        LeftArrowKey - Shoot Left" +
                                 $"\nS - Down        DownArrowKey - Shoot Downward" +
                                 $"\nD - Right       RightArrowKey - Shoot Right"
                                 , new Vector2(400, (height - 100) / 2), Color.White);
-                            _spriteBatch.DrawString(Font, $"{countdown / 60} seconds before zombies break in."
+                            _spriteBatch.DrawString(font, $"{countdown / 60} seconds before zombies break in."
                                 , new Vector2(500, (height-200)/2), Color.White);//num of seconds remaining
                         }
 
@@ -248,7 +254,7 @@ namespace GraveyardBattlefield
                     }
                 case Stage.GameOver:
                     {
-                        _spriteBatch.DrawString(Font, $"Press Space to go back to Main menu", new Vector2(300, 600), Color.Black);
+                        _spriteBatch.DrawString(font, $"Press Space to go back to Main menu", new Vector2(300, 600), Color.Black);
                         break;
                     }
             }

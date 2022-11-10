@@ -171,3 +171,4 @@ C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net
 C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net6.0\GraveyardBattlefield.genruntimeconfig.cache
 C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\obj\Debug\net6.0\ref\GraveyardBattlefield.dll
 C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\StartButton.xnb
+C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\TitleFont.xnb
