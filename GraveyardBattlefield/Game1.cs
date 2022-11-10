@@ -32,7 +32,11 @@ namespace GraveyardBattlefield
 
         private Player player;
         private List<Enemy> Zombies = new List<Enemy>();
+
+        //PREVIOUS KEYBOARD/MOUSE STATES
         private KeyboardState previousKBState;
+        private MouseState previousMState;
+
         private Random rdm = new Random();
         private static int width;
         private static int height;
@@ -59,6 +63,10 @@ namespace GraveyardBattlefield
         private Texture2D playerAsset;
         private Texture2D gameOverAsset;
         private Texture2D background;
+        private Texture2D startButton;
+        //StartButton Rect
+        private Rectangle startButtonRect;
+
         //fonts
         private SpriteFont Font;
         public Game1()
@@ -85,13 +93,19 @@ namespace GraveyardBattlefield
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //load the textures and rectangle and intialize the player object
+            //GAMEPLAY
             zombieAsset = this.Content.Load<Texture2D>("zombieKid");
             playerAsset = this.Content.Load<Texture2D>("playerSpriteSheet");
             background = this.Content.Load<Texture2D>("graveyard");
 
+            //MENU
             menuScreen = this.Content.Load<Texture2D>("mainMenuScreen");
+            //startButton = this.Content.Load<Texture2D>("StartButton");
+            //startButtonRect = new Rectangle(10, 10, 100, 100);
+
             //gameOverAsset = this.Content.Load<Texture2D>("");
             player = new Player(new Vector2(300, 300), playerAsset);
+
 
             //load bullet asset
             bulletTexture = this.Content.Load<Texture2D>("bullet"); 
@@ -107,6 +121,7 @@ namespace GraveyardBattlefield
 
             //check current keyboard state then update
             KeyboardState kbstate = Keyboard.GetState();
+            MouseState mState = Mouse.GetState(); //get mouseState
             switch (gameState)
             {
                 case Stage.Main:
@@ -117,6 +132,7 @@ namespace GraveyardBattlefield
                         {
                             gameState = Stage.Wave1;
                         }
+                        //if(Process.MouseClick(mState, startButtonRect))
                         NextWave();
                         break;
                     }
@@ -167,6 +183,7 @@ namespace GraveyardBattlefield
                         //the main menu
                         _spriteBatch.Draw(menuScreen, new Rectangle(0, 0, width, height), Color.White);
                         _spriteBatch.DrawString(Font, $"Press 'Enter' to start the game", new Vector2(300, 650), Color.White);
+                        //_spriteBatch.Draw(startButton, startButtonRect, Color.White);
                         break;
                     }
                 case Stage.Wave1:

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace GraveyardBattlefield
 {
@@ -22,7 +23,7 @@ namespace GraveyardBattlefield
 
         //fields
         private static KeyboardState previousKbState = Keyboard.GetState();
-
+        private static MouseState previousMState = Mouse.GetState();
         public static KeyboardState PreviousKbState { get; set; }
         /// <summary>
         /// Checks if the key processed through is pressed by checking keyboard states
@@ -41,6 +42,25 @@ namespace GraveyardBattlefield
             }
         }
 
+        public static bool MouseClick(MouseState currentMState, Rectangle buttonLocation)
+        {
+            bool success = false; //bool to see if a button was clicked
+            MouseState mState = Mouse.GetState();
+            if (mState.LeftButton == ButtonState.Released && previousMState.LeftButton == ButtonState.Pressed)
+                //if mouse was clicked
+            {
+                if (buttonLocation.Contains(mState.Position))//and if mouse was clicking on button
+                {
+                    success = true; //return true
+                }
+                else
+                {
+                    success = false; //otherwise button was not clicked
+                }
+            }
+            previousMState = mState; //update previous mouse state
+            return success; //return if button was clicked
+        }
 
         /// <summary>
         /// load text file with data in a specific format 
