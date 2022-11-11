@@ -55,6 +55,7 @@ namespace GraveyardBattlefield
 
         //Number of Waves
         int wave = 1;
+        int doOnce = 0;
 
 
         //TEXTURE2D
@@ -72,7 +73,7 @@ namespace GraveyardBattlefield
         private Texture2D bulletTexture;
         //For GameOver
         private Texture2D gameOverAsset;
-        private int countdown;
+        private int countDown;
 
         //FONTS
         private SpriteFont font;
@@ -107,7 +108,7 @@ namespace GraveyardBattlefield
             screenHeight = _graphics.PreferredBackBufferHeight;
 
             //Timer
-            countdown = 5*60; //5s multiplied by 60 milliseconds 
+            countDown = 5*60; //5s multiplied by 60 milliseconds 
             _graphics.ApplyChanges(); //apply screen change
             base.Initialize();
         }
@@ -171,89 +172,27 @@ namespace GraveyardBattlefield
                         }
 
                         //ExitButton to exit game
-                        if(Process.MouseClick(mState, exitButtonRect))
+                        if (Process.MouseClick(mState, exitButtonRect))
                         {
                             gameState = GameState.EndGame;
                         }
-                        NextWave();
                         break;
                     }
                 case GameState.Wave1:
                     {
-                        //Decrease increment in countdown
-                        countdown--;
+                        WaveSpawn(gameTime, 20); //Spawn zombie wave
+                        //Want to have a countdown to display victory message and give play time to celebrate before moving to next stage
+                        countDown--;
 
-                        //Player can still move even if countdown is not 0
-                        player.Update(gameTime, kbstate);
-
-                        //OLD CODE FOR BULLET
-                        #region
-                        //foreach (bullet bullet in bullets)
-                        //{
-                        //    bullet.shootBullet();
-                        //    //foreach (Enemy zombie in zombies)
-                        //    //{
-                        //    //    if(bullets.Position.Contains(zombie.Position))
-                        //    //    {
-                        //    //        zombie.TakeDamage();
-                        //    //    }
-                        //    //}
-                        //}
-                        #endregion
-
-                        //can still shoot even if countdown does not reach 0
-                        addBullet();
-                        //For bullets shot hitting zombie
-                        for (int i = 0; i < bullets.Count; i++)
+                        if(zombies.Count <= 0) //when player defeat zombie wave....
                         {
-                            bullets[i].shootBullet();
-                            for (int j = 0; j < zombies.Count; j++)
-                            {
-                                if (bullets[i].Position.Contains(zombies[j].Position.X + 15, zombies[j].Position.Y + 15)) //plus 15 is to make sure bullet hit zombie in middle
-                                    //if zombie position is inside bullet, will take dmg(Suppose to be vice-versa but it runs so its a hastle to change it)
-                                {
-                                    zombies[j].TakeDamage(); 
-                                }
-                            }
+                            gameState = GameState.Wave2; //transition to next stage
                         }
+                        break;
+                    }
+                case GameState.Wave2:
+                    {
 
-
-                        if (countdown <= 0) //implement a countdown, will load zombies when countdown reaches 0
-                        {
-                            //OLD CODE FOR ZOMBIES UPDATE
-                            #region
-                            //foreach (Enemy zombie in zombies)
-                            //{
-                            //    if (zombie.IsAlive == false)
-                            //    {
-                            //        zombies.Remove(zombie); //remove him, hes dead
-                            //    }
-                            //    else
-                            //    {
-                            //        zombie.Update(gameTime, player);
-                            //    }
-                            //}
-                            #endregion
-
-                            for (int i = 0; i < zombies.Count; i++)
-                            {
-                                if (zombies[i].IsAlive == false)
-                                {
-                                    zombies.Remove(zombies[i]);
-                                }
-                                else
-                                {
-                                    zombies[i].Update(gameTime, player);
-                                }
-                            }
-                        }
-
-                        if (player.Health <= 0) //if player health reaches 0 or less
-                        {
-                            player.Health = 0; //we want to display health = 0 instead of negatives for whatever reason
-                            gameState = GameState.GameOver; //display gamestate gameover
-                        }
-                        //loop through the game
                         break;
                     }
                 case GameState.GameOver:
@@ -310,7 +249,7 @@ namespace GraveyardBattlefield
                 case GameState.Wave1:
                     {
                         //Before we start the game, we want to have a countdown to get players time to be ready
-                        countdown--;
+                        countDown--;
 
                         //DONT DRAW ANYTHING BEFORE BACKGROUND OTHERWISE IT WONT SHOW
                         //DrawBackGround
@@ -319,15 +258,16 @@ namespace GraveyardBattlefield
                         //Draw STATS
                         _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
                             $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
-                        if (countdown > 0) //draw countdown
+                        if (countDown > 0) //draw countdown
                         {
-                            _spriteBatch.DrawString(font, $"Controls:" +
+                            _spriteBatch.DrawString(font, 
+                                $"                  Controls:" +
                                 $"\nW - Up          UpArrowKey - Shoot Upward" +
                                 $"\nA - Left        LeftArrowKey - Shoot Left" +
                                 $"\nS - Down        DownArrowKey - Shoot Downward" +
                                 $"\nD - Right       RightArrowKey - Shoot Right"
                                 , new Vector2(400, (screenHeight - 100) / 2), Color.White);
-                            _spriteBatch.DrawString(font, $"{countdown / 60} seconds before zombies break in."
+                            _spriteBatch.DrawString(font, $"{countDown / 60} seconds before zombies break in."
                                 , new Vector2(500, (screenHeight-200)/2), Color.White);//num of seconds remaining
                         }
 
@@ -355,11 +295,11 @@ namespace GraveyardBattlefield
             base.Draw(gameTime);
         }
 
-        private void NextWave()
+        private void NextWave(int numOfZombiesInWave)
         {
             if (wave == 1)
             {
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < numOfZombiesInWave; i++)
                 {
                     int randNum = randGen.Next(0, 4);
                     if (randNum == 0)
@@ -381,7 +321,7 @@ namespace GraveyardBattlefield
         }
 
         //need to convert 
-        private void addBullet()
+        private void AddBullet()
         {
             KeyboardState kbstate = Keyboard.GetState();
 
@@ -460,8 +400,106 @@ namespace GraveyardBattlefield
             player.Health = 300;
             playerBullet = 150;
             playerBackupBullet = 600;
-            countdown = 5*60;
+            ResetCountDown();
         }
-        
+
+        /// <summary>
+        /// Reset CountDown
+        /// </summary>
+        public void ResetCountDown()
+        {
+            countDown = 5 * 60; //5 s multiplied by 60 miliseconds gives us 5 seconds in milliseconds
+        }
+
+        /// <summary>
+        /// Populate Wave with zombies
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="numOfZombieInWave"></param>
+        public void WaveSpawn(GameTime gameTime, int numOfZombieInWave)
+        {
+            //Decrease increment in countdown
+            countDown--;
+            KeyboardState kbstate = Keyboard.GetState();
+
+            //Player can still move even if countdown is not 0
+            player.Update(gameTime, kbstate);
+
+            if((zombies == null || zombies.Count == 0) && doOnce != 1) //if zombies do not exist, or is null, we will spawn zombies only once
+            {
+                NextWave(numOfZombieInWave); //spawn zombie
+                doOnce++; //increment doOnce so we only do this once
+            }
+
+            //OLD CODE FOR BULLET
+            #region
+            //foreach (bullet bullet in bullets)
+            //{
+            //    bullet.shootBullet();
+            //    //foreach (Enemy zombie in zombies)
+            //    //{
+            //    //    if(bullets.Position.Contains(zombie.Position))
+            //    //    {
+            //    //        zombie.TakeDamage();
+            //    //    }
+            //    //}
+            //}
+            #endregion
+
+            //can still shoot even if countdown does not reach 0
+            AddBullet();
+            //For bullets shot hitting zombie
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                bullets[i].shootBullet();
+                for (int j = 0; j < zombies.Count; j++)
+                {
+                    if (bullets[i].Position.Contains(zombies[j].Position.X + 15, zombies[j].Position.Y + 15)) 
+                        //plus 15 is to make sure bullet hit zombie in middle
+                        //if zombie position is inside bullet, will take dmg(Suppose to be vice-versa but it runs so its a hastle to change it)
+                    {
+                        zombies[j].TakeDamage();
+                    }
+                }
+            }
+
+            if (countDown <= 0) //implement a countdown, will load zombies when countdown reaches 0
+            {
+                //OLD CODE FOR ZOMBIES UPDATE
+                #region
+                //foreach (Enemy zombie in zombies)
+                //{
+                //    if (zombie.IsAlive == false)
+                //    {
+                //        zombies.Remove(zombie); //remove him, hes dead
+                //    }
+                //    else
+                //    {
+                //        zombie.Update(gameTime, player);
+                //    }
+                //}
+                #endregion
+
+                for (int i = 0; i < zombies.Count; i++)
+                {
+                    if (zombies[i].IsAlive == false)
+                    {
+                        zombies.Remove(zombies[i]);
+                    }
+                    else
+                    {
+                        zombies[i].Update(gameTime, player);
+                    }
+                }
+            }
+
+            if (player.Health <= 0) //if player health reaches 0 or less
+            {
+                player.Health = 0; //we want to display health = 0 instead of negatives for whatever reason
+                gameState = GameState.GameOver; //display gamestate gameover
+            }
+            //loop through the game
+        }
+
     }
 }
