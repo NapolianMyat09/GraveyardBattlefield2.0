@@ -276,12 +276,15 @@ namespace GraveyardBattlefield
                 case GameState.Wave1:
                     {
                         DrawWave(waveOneBackGround);
-                        wave = 2;
+                        System.Diagnostics.Debug.WriteLine("It Works");
+                        wave = 1;
                         break;
                     }
                 case GameState.Wave2:
                     {
                         DrawWave(waveTwoBackGround);
+                        System.Diagnostics.Debug.WriteLine("It Worksx2");
+                        wave = 2;
                         break;
                     }
                 case GameState.GameOver:
