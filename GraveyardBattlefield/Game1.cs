@@ -193,6 +193,7 @@ namespace GraveyardBattlefield
                         if(zombies.Count <= 0) //when player defeat zombie wave....
                         {
                             gameState = GameState.Wave2; //transition to next stage
+                            wave = 2;
                         }
                         break;
                     }
@@ -205,6 +206,7 @@ namespace GraveyardBattlefield
                         if (zombies.Count <= 0) //when player defeat zombie wave....
                         {
                             gameState = GameState.Wave3; //transition to next stage
+                            wave = 3;
                         }
                         break;
                     }
@@ -273,80 +275,13 @@ namespace GraveyardBattlefield
                     }
                 case GameState.Wave1:
                     {
-                        //DrawWave(waveOneBackGround);
-                        //Before we start the game, we want to have a countdown to get players time to be ready
-                        countDown--;
-
-                        //DONT DRAW ANYTHING BEFORE BACKGROUND OTHERWISE IT WONT SHOW
-                        //DrawBackGround
-                        _spriteBatch.Draw(waveOneBackGround, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
-
-                        //Draw STATS
-                        _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
-                            $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
-                        if (countDown > 0) //draw countdown
-                        {
-                            _spriteBatch.DrawString(font,
-                                $"                  Controls:" +
-                                $"\nW - Up          UpArrowKey - Shoot Upward" +
-                                $"\nA - Left        LeftArrowKey - Shoot Left" +
-                                $"\nS - Down        DownArrowKey - Shoot Downward" +
-                                $"\nD - Right       RightArrowKey - Shoot Right"
-                                , new Vector2(400, (screenHeight - 100) / 2), Color.White);
-                            _spriteBatch.DrawString(font, $"{countDown / 60} seconds before zombies break in."
-                                , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
-                        }
-
-                        //DrawPLayer&Enemy Asset
-                        player.Draw(_spriteBatch);
-                        foreach (Enemy zombies in zombies)
-                        {
-                            zombies.Draw(_spriteBatch);
-                        }
-
-                        foreach (bullet bullets in bullets)
-                        {
-                            bullets.Draw(_spriteBatch);
-                        }
-
+                        DrawWave(waveOneBackGround);
+                        wave = 2;
                         break;
                     }
                 case GameState.Wave2:
                     {
-                        //Before we start the game, we want to have a countdown to get players time to be ready
-                        countDown--;
-
-                        //DONT DRAW ANYTHING BEFORE BACKGROUND OTHERWISE IT WONT SHOW
-                        //DrawBackGround
-                        _spriteBatch.Draw(waveTwoBackGround, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
-
-                        //Draw STATS
-                        _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
-                            $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
-                        if (countDown > 0) //draw countdown
-                        {
-                            _spriteBatch.DrawString(font,
-                                $"                  Controls:" +
-                                $"\nW - Up          UpArrowKey - Shoot Upward" +
-                                $"\nA - Left        LeftArrowKey - Shoot Left" +
-                                $"\nS - Down        DownArrowKey - Shoot Downward" +
-                                $"\nD - Right       RightArrowKey - Shoot Right"
-                                , new Vector2(400, (screenHeight - 100) / 2), Color.White);
-                            _spriteBatch.DrawString(font, $"{countDown / 60} seconds before zombies break in."
-                                , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
-                        }
-
-                        //DrawPLayer&Enemy Asset
-                        player.Draw(_spriteBatch);
-                        foreach (Enemy zombies in zombies)
-                        {
-                            zombies.Draw(_spriteBatch);
-                        }
-
-                        foreach (bullet bullets in bullets)
-                        {
-                            bullets.Draw(_spriteBatch);
-                        }
+                        DrawWave(waveTwoBackGround);
                         break;
                     }
                 case GameState.GameOver:
