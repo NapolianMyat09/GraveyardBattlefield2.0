@@ -174,3 +174,7 @@ C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net
 C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\TitleFont.xnb
 C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\ExitButton.xnb
 C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\snowfield.xnb
+C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\SoldierVictory.xnb
+C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\VictoryBackground.xnb
+C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\VictorySymbol.xnb
+C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieVictory.xnb
