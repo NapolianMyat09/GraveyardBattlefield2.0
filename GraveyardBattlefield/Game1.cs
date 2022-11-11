@@ -354,7 +354,7 @@ namespace GraveyardBattlefield
                         countdown = 0;
 
                         //Draw STATS
-                        _spriteBatch.DrawString(titleFont, $"Wave: {wave}", new Vector2(screenWidth-100, 100), Color.White)
+                        _spriteBatch.DrawString(titleFont, $"Wave: {wave}", new Vector2(screenWidth - 100, 100), Color.White);
                         _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
                             $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
                         if (countdown > 0) //draw countdown
