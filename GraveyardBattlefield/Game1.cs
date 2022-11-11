@@ -202,7 +202,7 @@ namespace GraveyardBattlefield
                         #endregion
 
                         //can still shoot even if countdown does not reach 0
-                        addBullet();
+                        AddBullet();
                         //For bullets shot hitting zombie
                         for (int i = 0; i < bullets.Count; i++)
                         {
@@ -217,8 +217,8 @@ namespace GraveyardBattlefield
                             }
                         }
 
-
-                        if (countdown <= 0) //implement a countdown, will load zombies when countdown reaches 0
+                        //implement a countdown, will load zombies when countdown reaches 0
+                        if (countdown <= 0) 
                         {
                             //OLD CODE FOR ZOMBIES UPDATE
                             #region
@@ -252,6 +252,10 @@ namespace GraveyardBattlefield
                         {
                             player.Health = 0; //we want to display health = 0 instead of negatives for whatever reason
                             gameState = GameState.GameOver; //display gamestate gameover
+                        }
+                        else if(zombies.Count <= 0) //progress to next wave
+                        {
+                            gameState = GameState.Wave2;
                         }
                         //loop through the game
                         break;
@@ -345,6 +349,27 @@ namespace GraveyardBattlefield
 
                         break;
                     }
+                case GameState.Wave2:
+                    {
+                        countdown = 0;
+
+                        //Draw STATS
+                        _spriteBatch.DrawString(titleFont, $"Wave: {wave}", new Vector2(screenWidth-100, 100), Color.White)
+                        _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
+                            $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
+                        if (countdown > 0) //draw countdown
+                        {
+                            _spriteBatch.DrawString(font, $"Controls:" +
+                                $"\nW - Up          UpArrowKey - Shoot Upward" +
+                                $"\nA - Left        LeftArrowKey - Shoot Left" +
+                                $"\nS - Down        DownArrowKey - Shoot Downward" +
+                                $"\nD - Right       RightArrowKey - Shoot Right"
+                                , new Vector2(400, (screenHeight - 100) / 2), Color.White);
+                            _spriteBatch.DrawString(font, $"{countdown / 60} seconds before zombies break in."
+                                , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
+                        }
+                        break;
+                    }
                 case GameState.GameOver:
                     {
                         _spriteBatch.DrawString(font, $"Press Space to go back to Main menu", new Vector2(300, 600), Color.Black);
@@ -359,6 +384,7 @@ namespace GraveyardBattlefield
         {
             if (wave == 1)
             {
+                //Wave 1 will spawn 20 zombie
                 for (int i = 0; i < 20; i++)
                 {
                     int randNum = randGen.Next(0, 4);
@@ -376,12 +402,48 @@ namespace GraveyardBattlefield
                 }
             }
             //sprint 4
-            else if(wave == 2) { }
-            else if(wave == 3) { } 
+            else if(wave == 2) 
+            {
+                //Wave 1 will spawn 20 zombie
+                for (int i = 0; i < 40; i++)
+                {
+                    int randNum = randGen.Next(0, 4);
+                    if (randNum == 0)
+                        zombies.Add(new Enemy(new Rectangle(0, randGen.Next(0, screenHeight), 30, 30), zombieAsset));
+                    else if (randNum == 1)
+                        zombies.Add(new Enemy(new Rectangle(screenWidth, randGen.Next(0, screenHeight), 30, 30), zombieAsset));
+                    else if (randNum == 2)
+                        zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), 0, 30, 30), zombieAsset));
+                    else if (randNum == 3)
+                        zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), screenHeight, 30, 30), zombieAsset));
+                    else
+                    { //nth happens
+                    }
+                }
+            }
+            else if(wave == 3) 
+            {
+                //Wave 1 will spawn 20 zombie
+                for (int i = 0; i < 60; i++)
+                {
+                    int randNum = randGen.Next(0, 4);
+                    if (randNum == 0)
+                        zombies.Add(new Enemy(new Rectangle(0, randGen.Next(0, screenHeight), 30, 30), zombieAsset));
+                    else if (randNum == 1)
+                        zombies.Add(new Enemy(new Rectangle(screenWidth, randGen.Next(0, screenHeight), 30, 30), zombieAsset));
+                    else if (randNum == 2)
+                        zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), 0, 30, 30), zombieAsset));
+                    else if (randNum == 3)
+                        zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), screenHeight, 30, 30), zombieAsset));
+                    else
+                    { //nth happens
+                    }
+                }
+            } 
         }
 
         //need to convert 
-        private void addBullet()
+        private void AddBullet()
         {
             KeyboardState kbstate = Keyboard.GetState();
 
@@ -460,7 +522,12 @@ namespace GraveyardBattlefield
             player.Health = 300;
             playerBullet = 150;
             playerBackupBullet = 600;
-            countdown = 5*60;
+            ResetCountdown();
+        }
+
+        public void ResetCountdown()
+        {
+            countdown = 5 * 60;
         }
         
     }
