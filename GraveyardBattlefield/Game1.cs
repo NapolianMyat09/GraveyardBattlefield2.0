@@ -303,10 +303,9 @@ namespace GraveyardBattlefield
         {
             if (wave == 1)
             {
-                int randNum = rdm.Next(0, 4);
                 for (int i = 0; i < 20; i++)
                 {
-
+                    int randNum = rdm.Next(0, 4);
                     if (randNum == 0)
                         zombies.Add(new Enemy(new Rectangle(0, rdm.Next(0, height), 30, 30), zombieAsset));
                     else if (randNum == 1)
@@ -333,24 +332,58 @@ namespace GraveyardBattlefield
             //while player did not run out of bullets
             if (playerBullet > 0)
             {
+                //Upward
                 if (kbstate.IsKeyDown(Keys.Up))
                 {
-                    bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "up"));
-                    playerBullet--;
+                    //Upward Left
+                    if (kbstate.IsKeyDown(Keys.Left) && kbstate.IsKeyDown(Keys.Up))
+                    {
+                        bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "upleft"));
+                        playerBullet--;
+                    }
+                    //Upward Right
+                    else if (kbstate.IsKeyDown(Keys.Right) && kbstate.IsKeyDown(Keys.Up))
+                    {
+                        bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "upright"));
+                        playerBullet--;
+                    }
+                    else //just upward
+                    {
+                        bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "up"));
+                        playerBullet--;
+                    }
                 }
-                if (kbstate.IsKeyDown(Keys.Left))
+                //Downward
+                else if (kbstate.IsKeyDown(Keys.Down))
                 {
-                    bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "left"));
-                    playerBullet--;
+                    //Downward Left
+                    if (kbstate.IsKeyDown(Keys.Down) && kbstate.IsKeyDown(Keys.Left))
+                    {
+                        bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "downleft"));
+                        playerBullet--;
+                    }
+                    //Downward Right
+                    else if (kbstate.IsKeyDown(Keys.Down) && kbstate.IsKeyDown(Keys.Right))
+                    {
+                        bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "downright"));
+                        playerBullet--;
+                    }
+                    else //just downward
+                    {
+                        bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "down"));
+                        playerBullet--;
+                    }
                 }
-                if (kbstate.IsKeyDown(Keys.Down))
-                {
-                    bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "down"));
-                    playerBullet--;
-                }
-                if (kbstate.IsKeyDown(Keys.Right))
+                //Right
+                else if (kbstate.IsKeyDown(Keys.Right))
                 {
                     bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "right"));
+                    playerBullet--;
+                }
+                //Left
+                else if (kbstate.IsKeyDown(Keys.Left))
+                {
+                    bullets.Add(new bullet(width, height, new Rectangle(Convert.ToInt32(player.Position.X), Convert.ToInt32(player.Position.Y), bulletTexture.Width, bulletTexture.Height), bulletTexture, "left"));
                     playerBullet--;
                 }
             }

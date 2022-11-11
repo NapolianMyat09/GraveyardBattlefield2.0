@@ -47,21 +47,47 @@ namespace GraveyardBattlefield
         //Bullet shooting
         public void shootBullet()
         {
+            //Upward
             if (shootAngle == "up")
             {
                 position.Y -= bulletSpeed; //(where it is shot position +- speed of bullet) will give us the direction of bullet projectile movement
             }
-            if (shootAngle == "left")
+            //Upleft
+            else if(shootAngle == "upleft")
             {
+                position.Y -= bulletSpeed;
                 position.X -= bulletSpeed;
             }
-            if (shootAngle == "down")
+            else if(shootAngle == "upright")
+            {
+                position.Y -= bulletSpeed;
+                position.X += bulletSpeed;
+            }
+            //Down
+            else if (shootAngle == "down")
             {
                 position.Y += bulletSpeed;
             }
-            if (shootAngle == "right")
+            //downleft
+            else if (shootAngle == "downleft")
+            {
+                position.Y += bulletSpeed;
+                position.X -= bulletSpeed;
+            }
+            else if (shootAngle == "downright")
+            {
+                position.Y += bulletSpeed;
+                position.X += bulletSpeed;
+            }
+            //Right
+            else if (shootAngle == "right")
             {
                 position.X += bulletSpeed;
+            }
+            //Left
+            else if (shootAngle == "left")
+            {
+                position.X -= bulletSpeed;
             }
         }
 
