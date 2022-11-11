@@ -538,7 +538,6 @@ namespace GraveyardBattlefield
                     }
                 }
             }
-
             if (countDown <= 0) //implement a countdown, will load zombies when countdown reaches 0
             {
                 //OLD CODE FOR ZOMBIES UPDATE
