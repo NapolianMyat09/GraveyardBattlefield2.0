@@ -30,6 +30,8 @@ namespace GraveyardBattlefield
             get { return bulletSpeed; }
         }
 
+
+
         //CONSTRUCTOR
         public bullet(int width, int height, Rectangle position, Texture2D texture, string shootAngle)
         { 
@@ -47,7 +49,7 @@ namespace GraveyardBattlefield
         {
             if (shootAngle == "up")
             {
-                position.Y -= bulletSpeed; //(where it is shot position - speed of bullet) will give us the direction of bullet projectile movement
+                position.Y -= bulletSpeed; //(where it is shot position +- speed of bullet) will give us the direction of bullet projectile movement
             }
             if (shootAngle == "left")
             {
@@ -61,12 +63,12 @@ namespace GraveyardBattlefield
             {
                 position.X += bulletSpeed;
             }
-
         }
 
         //Draw bullet
         public void Draw(SpriteBatch sb)
         {
+            //Rectangle zombieRect = new Rectangle(position.X, position.Y, 20, 20);
             sb.Draw(texture, new Rectangle(position.X, position.Y, 20, 20), Color.White);
         }
     }

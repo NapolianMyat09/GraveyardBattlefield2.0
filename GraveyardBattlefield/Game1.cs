@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System;
 using System.Threading;
+using System.Linq;
 
 namespace GraveyardBattlefield
 {
@@ -33,11 +34,16 @@ namespace GraveyardBattlefield
 
         //ASSET THAT MOVES
         private Player player;
-        private List<Enemy> Zombies = new List<Enemy>();
+        private List<Enemy> zombies = new List<Enemy>();
+        //ammo assets
+        Texture2D bulletTexture;
+        private int playerBullet = 150;
+        private int playerBackupBullet = 600;
+        private List<bullet> bullets = new List<bullet>();
 
         //PREVIOUS KEYBOARD/MOUSE STATES
-        private KeyboardState previousKBState;
-        private MouseState previousMState;
+        //private KeyboardState previousKBState;
+        //private MouseState previousMState;
 
         private Random rdm = new Random();
         private static int width; //screen width
@@ -46,11 +52,6 @@ namespace GraveyardBattlefield
         //Number of Waves
         int wave = 1;
 
-        //ammo assets
-        Texture2D bulletTexture;
-        private int playerBullet = 150;
-        private int playerBackupBullet = 600;
-        private List<bullet> bullets = new List<bullet>();
 
         //the player and zombie assets
         private Texture2D menuScreen;
@@ -63,7 +64,7 @@ namespace GraveyardBattlefield
         private Rectangle startButtonRect;
         private int countdown;
 
-        //fonts
+        //fonts\\\\\\
         private SpriteFont font;
         private SpriteFont titleFont;
 
@@ -137,7 +138,7 @@ namespace GraveyardBattlefield
             {
                 case Stage.Main:
                     {
-                        Zombies.Clear(); //Reset zombies
+                        zombies.Clear(); //Reset zombies
                         ResetGame(); //Reset previous progress
 
                         //for keyboard press enter, will start game
@@ -163,16 +164,52 @@ namespace GraveyardBattlefield
                         if (countdown <= 0) //implement a countdown, will load zombies when countdown reaches 0
                         {
                             addBullet();
-                            foreach (Enemy zombies in Zombies)
+                            //foreach (Enemy zombie in zombies)
+                            //{
+                            //    if (zombie.IsAlive == false)
+                            //    {
+                            //        zombies.Remove(zombie); //remove him, hes dead
+                            //    }
+                            //    else
+                            //    {
+                            //        zombie.Update(gameTime, player);
+                            //    }
+                            //}
+                            for (int i = 0; i < zombies.Count; i++)
                             {
-                                zombies.Update(gameTime, player);
+                                if (zombies[i].IsAlive == false)
+                                {
+                                    zombies.Remove(zombies[i]);
+                                }
+                                else
+                                {
+                                    zombies[i].Update(gameTime, player);
+                                }
                             }
                         }
 
                         //can still shoot even if countdown does not reach 0
-                        foreach (bullet bullets in bullets)
+                        //foreach (bullet bullet in bullets)
+                        //{
+                        //    bullet.shootBullet();
+                        //    //foreach (Enemy zombie in zombies)
+                        //    //{
+                        //    //    if(bullets.Position.Contains(zombie.Position))
+                        //    //    {
+                        //    //        zombie.TakeDamage();
+                        //    //    }
+                        //    //}
+                        //}
+                        for (int i = 0; i < bullets.Count; i++)
                         {
-                            bullets.shootBullet();
+                            bullets[i].shootBullet();
+                            for (int j = 0; j < zombies.Count; j++)
+                            {
+                                if (bullets[i].Position.Contains(zombies[j].Position.X + 15, zombies[j].Position.Y + 15))
+                                {
+                                    zombies[j].TakeDamage();
+                                }
+                            }
                         }
 
                         if (player.Health <= 0) //if player health reaches 0 or less
@@ -240,7 +277,7 @@ namespace GraveyardBattlefield
 
                         //DrawPLayer&Enemy Asset
                         player.Draw(_spriteBatch);
-                        foreach (Enemy zombies in Zombies)
+                        foreach (Enemy zombies in zombies)
                         {
                             zombies.Draw(_spriteBatch);
                         }
@@ -266,13 +303,21 @@ namespace GraveyardBattlefield
         {
             if (wave == 1)
             {
-                for (int i = 0; i < 4; i++)
+                int randNum = rdm.Next(0, 4);
+                for (int i = 0; i < 20; i++)
                 {
-                    Zombies.Add(new Enemy(new Vector2(0, rdm.Next(0, height)), zombieAsset));
-                    Zombies.Add(new Enemy(new Vector2(width, rdm.Next(0, height)), zombieAsset));
-                    Zombies.Add(new Enemy(new Vector2(rdm.Next(0, width), 0), zombieAsset));
-                    Zombies.Add(new Enemy(new Vector2(rdm.Next(0, width), height), zombieAsset));
 
+                    if (randNum == 0)
+                        zombies.Add(new Enemy(new Rectangle(0, rdm.Next(0, height), 30, 30), zombieAsset));
+                    else if (randNum == 1)
+                        zombies.Add(new Enemy(new Rectangle(width, rdm.Next(0, height), 30, 30), zombieAsset));
+                    else if (randNum == 2)
+                        zombies.Add(new Enemy(new Rectangle(rdm.Next(0, width), 0, 30, 30), zombieAsset));
+                    else if (randNum == 3)
+                        zombies.Add(new Enemy(new Rectangle(rdm.Next(0, width), height, 30, 30), zombieAsset));
+                    else
+                    { //nth happens
+                    }
                 }
             }
             //sprint 4

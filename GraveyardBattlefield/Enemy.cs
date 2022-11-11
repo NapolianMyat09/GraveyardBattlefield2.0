@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection.Emit;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,21 +24,21 @@ namespace GraveyardBattlefield
      */
     internal class Enemy
     {
-       
-
-        private Vector2 position;
+       //FIELDS
+        private Rectangle position;
         private Texture2D asset;
+        private bool isAlive = true;
+
+        //PROPERTIES
         public int Health { get; set; }
-
-        public Vector2 Position { get { return position; } set { position = value; } }
-
-        public Enemy(Vector2 position, Texture2D asset)
+        public bool IsAlive { get { return isAlive; } set{ isAlive = value;}}
+        public Rectangle Position { get { return position; } set { position = value; } }
+        public Enemy(Rectangle position, Texture2D asset)
 
         {
             Position = position;
             this.asset = asset;
             Health = 100;
-            
         }
         public void Update(GameTime gametime, Player player)
         {
@@ -76,8 +77,16 @@ namespace GraveyardBattlefield
             {
                 player.TakeDamage();
             }
+            
         }
-
+        public void TakeDamage()
+        {
+            this.Health --; 
+            if(this.Health <= 0)
+            {
+                IsAlive = false;
+            }
+        }
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(asset, Position, Color.White);
