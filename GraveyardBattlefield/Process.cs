@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.Xna.Framework;
+using System.Transactions;
 
 namespace GraveyardBattlefield
 {
@@ -45,11 +46,10 @@ namespace GraveyardBattlefield
         public static bool MouseClick(MouseState currentMState, Rectangle buttonLocation)
         {
             bool success = false; //bool to see if a button was clicked
-            MouseState mState = Mouse.GetState();
-            if (mState.LeftButton == ButtonState.Released && previousMState.LeftButton == ButtonState.Pressed)
+            if (currentMState.LeftButton == ButtonState.Released && previousMState.LeftButton == ButtonState.Pressed)
                 //if mouse was clicked
             {
-                if (buttonLocation.Contains(mState.Position))//and if mouse was clicking on button
+                if (buttonLocation.Contains(currentMState.Position))//and if mouse was clicking on button
                 {
                     success = true; //return true
                 }
@@ -58,7 +58,7 @@ namespace GraveyardBattlefield
                     success = false; //otherwise button was not clicked
                 }
             }
-            previousMState = mState; //update previous mouse state
+            previousMState = currentMState; //update previous mouse state
             return success; //return if button was clicked
         }
 

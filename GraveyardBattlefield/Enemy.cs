@@ -26,33 +26,41 @@ namespace GraveyardBattlefield
     {
        //FIELDS
         private Rectangle position;
-        private Texture2D asset;
+        private Texture2D asset; //zombie image
         private bool isAlive = true;
 
         //PROPERTIES
-        public int Health { get; set; }
-        public bool IsAlive { get { return isAlive; } set{ isAlive = value;}}
-        public Rectangle Position { get { return position; } set { position = value; } }
-        public Enemy(Rectangle position, Texture2D asset)
+        public int Health { get; set; } //zombie health - will change as bullet dmg it
+        public bool IsAlive { get { return isAlive; } set{ isAlive = value;}} //check to see if zombie is alive
+        public Rectangle Position { get { return position; } set { position = value; } } //get the zombie rect, for position
 
+        //CONDUCTOR
+        public Enemy(Rectangle position, Texture2D asset)
         {
             Position = position;
             this.asset = asset;
             Health = 100;
         }
+
+        //METHODS
+        /// <summary>
+        /// Update Zombie
+        /// </summary>
+        /// <param name="gametime"></param>
+        /// <param name="player"></param>
         public void Update(GameTime gametime, Player player)
         {
             bool XequalPlayer = false;
             bool YequalPlayer = false;
             int zombieSpeed = 3;
-
+            int zombieContactWithPlayer = 10;
             //change X value base on player's X value
-            if (player.Position.X + 30 < position.X) 
+            if (player.Position.X + zombieContactWithPlayer < position.X) 
             {
                 position.X -= zombieSpeed;
                 XequalPlayer = false;
             }
-            else if (player.Position.X - 30 > position.X)
+            else if (player.Position.X - zombieContactWithPlayer > position.X)
             {
                 position.X += zombieSpeed;
                 XequalPlayer = false;
@@ -60,12 +68,12 @@ namespace GraveyardBattlefield
             else XequalPlayer = true;
 
             //change Y value base on player's Y value
-            if (player.Position.Y + 30 < position.Y)
+            if (player.Position.Y + zombieContactWithPlayer < position.Y)
             {
                 position.Y -= zombieSpeed;
                 YequalPlayer = false;
             }
-            else if (player.Position.Y - 30> position.Y)
+            else if (player.Position.Y - zombieContactWithPlayer> position.Y)
             {
                 position.Y += zombieSpeed;
                 YequalPlayer = false;
@@ -79,6 +87,9 @@ namespace GraveyardBattlefield
             }
             
         }
+        /// <summary>
+        /// Zombie is bombarded with bullets, must die at some point
+        /// </summary>
         public void TakeDamage()
         {
             this.Health --; 
@@ -87,6 +98,10 @@ namespace GraveyardBattlefield
                 IsAlive = false;
             }
         }
+        /// <summary>
+        /// Drawing Zombie
+        /// </summary>
+        /// <param name="sb"></param>
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(asset, Position, Color.White);
