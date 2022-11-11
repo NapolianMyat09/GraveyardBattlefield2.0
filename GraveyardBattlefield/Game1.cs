@@ -22,6 +22,7 @@ namespace GraveyardBattlefield
         Menu,
         Wave1,
         Wave2,
+        Wave3,
         FinalWave,
         GameOver,
         EndGame
@@ -69,7 +70,8 @@ namespace GraveyardBattlefield
         //For Gameplay
         private Texture2D zombieAsset;
         private Texture2D playerAsset;
-        private Texture2D background;
+        private Texture2D waveOneBackGround;
+        private Texture2D waveTwoBackGround;
         private Texture2D bulletTexture;
         //For GameOver
         private Texture2D gameOverAsset;
@@ -132,7 +134,10 @@ namespace GraveyardBattlefield
             exitButtonRect = new Rectangle(screenWidth-115, 20, 85, 85);
 
             //WAVE #1
-            background = this.Content.Load<Texture2D>("graveyard");
+            waveOneBackGround = this.Content.Load<Texture2D>("graveyard");
+
+            //WAVE #2
+            waveTwoBackGround = this.Content.Load<Texture2D>("snowfield");
 
             //GAMEOVER SCREEN
             //gameOverAsset = this.Content.Load<Texture2D>("");
@@ -174,6 +179,7 @@ namespace GraveyardBattlefield
                         //ExitButton to exit game
                         if (Process.MouseClick(mState, exitButtonRect))
                         {
+                            zombies.Clear();
                             gameState = GameState.EndGame;
                         }
                         break;
@@ -192,7 +198,26 @@ namespace GraveyardBattlefield
                     }
                 case GameState.Wave2:
                     {
+                        WaveSpawn(gameTime, 40); //Spawn zombie wave
+                        //Want to have a countdown to display victory message and give play time to celebrate before moving to next stage
+                        countDown--;
 
+                        if (zombies.Count <= 0) //when player defeat zombie wave....
+                        {
+                            gameState = GameState.Wave3; //transition to next stage
+                        }
+                        break;
+                    }
+                case GameState.Wave3:
+                    {
+                        WaveSpawn(gameTime, 60); //Spawn zombie wave
+                        //Want to have a countdown to display victory message and give play time to celebrate before moving to next stage
+                        countDown--;
+
+                        if (zombies.Count <= 0) //when player defeat zombie wave....
+                        {
+                            gameState = GameState.FinalWave; //transition to next stage
+                        }
                         break;
                     }
                 case GameState.GameOver:
@@ -248,19 +273,20 @@ namespace GraveyardBattlefield
                     }
                 case GameState.Wave1:
                     {
+                        //DrawWave(waveOneBackGround);
                         //Before we start the game, we want to have a countdown to get players time to be ready
                         countDown--;
 
                         //DONT DRAW ANYTHING BEFORE BACKGROUND OTHERWISE IT WONT SHOW
                         //DrawBackGround
-                        _spriteBatch.Draw(background, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+                        _spriteBatch.Draw(waveOneBackGround, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
 
                         //Draw STATS
                         _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
                             $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
                         if (countDown > 0) //draw countdown
                         {
-                            _spriteBatch.DrawString(font, 
+                            _spriteBatch.DrawString(font,
                                 $"                  Controls:" +
                                 $"\nW - Up          UpArrowKey - Shoot Upward" +
                                 $"\nA - Left        LeftArrowKey - Shoot Left" +
@@ -268,7 +294,7 @@ namespace GraveyardBattlefield
                                 $"\nD - Right       RightArrowKey - Shoot Right"
                                 , new Vector2(400, (screenHeight - 100) / 2), Color.White);
                             _spriteBatch.DrawString(font, $"{countDown / 60} seconds before zombies break in."
-                                , new Vector2(500, (screenHeight-200)/2), Color.White);//num of seconds remaining
+                                , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
                         }
 
                         //DrawPLayer&Enemy Asset
@@ -285,6 +311,44 @@ namespace GraveyardBattlefield
 
                         break;
                     }
+                case GameState.Wave2:
+                    {
+                        //Before we start the game, we want to have a countdown to get players time to be ready
+                        countDown--;
+
+                        //DONT DRAW ANYTHING BEFORE BACKGROUND OTHERWISE IT WONT SHOW
+                        //DrawBackGround
+                        _spriteBatch.Draw(waveTwoBackGround, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+
+                        //Draw STATS
+                        _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
+                            $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
+                        if (countDown > 0) //draw countdown
+                        {
+                            _spriteBatch.DrawString(font,
+                                $"                  Controls:" +
+                                $"\nW - Up          UpArrowKey - Shoot Upward" +
+                                $"\nA - Left        LeftArrowKey - Shoot Left" +
+                                $"\nS - Down        DownArrowKey - Shoot Downward" +
+                                $"\nD - Right       RightArrowKey - Shoot Right"
+                                , new Vector2(400, (screenHeight - 100) / 2), Color.White);
+                            _spriteBatch.DrawString(font, $"{countDown / 60} seconds before zombies break in."
+                                , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
+                        }
+
+                        //DrawPLayer&Enemy Asset
+                        player.Draw(_spriteBatch);
+                        foreach (Enemy zombies in zombies)
+                        {
+                            zombies.Draw(_spriteBatch);
+                        }
+
+                        foreach (bullet bullets in bullets)
+                        {
+                            bullets.Draw(_spriteBatch);
+                        }
+                        break;
+                    }
                 case GameState.GameOver:
                     {
                         _spriteBatch.DrawString(font, $"Press Space to go back to Main menu", new Vector2(300, 600), Color.Black);
@@ -297,8 +361,8 @@ namespace GraveyardBattlefield
 
         private void NextWave(int numOfZombiesInWave)
         {
-            if (wave == 1)
-            {
+            //if (wave == 1)
+            //{
                 for (int i = 0; i < numOfZombiesInWave; i++)
                 {
                     int randNum = randGen.Next(0, 4);
@@ -314,10 +378,10 @@ namespace GraveyardBattlefield
                     { //nth happens
                     }
                 }
-            }
-            //sprint 4
-            else if(wave == 2) { }
-            else if(wave == 3) { } 
+            //}
+            ////sprint 4
+            //else if(wave == 2) { }
+            //else if(wave == 3) { } 
         }
 
         //need to convert 
@@ -401,6 +465,7 @@ namespace GraveyardBattlefield
             playerBullet = 150;
             playerBackupBullet = 600;
             ResetCountDown();
+            zombies.Clear();
         }
 
         /// <summary>
@@ -501,5 +566,44 @@ namespace GraveyardBattlefield
             //loop through the game
         }
 
+
+        public void DrawWave(Texture2D background)
+        {
+            //Before we start the game, we want to have a countdown to get players time to be ready
+            countDown--;
+
+            //DONT DRAW ANYTHING BEFORE BACKGROUND OTHERWISE IT WONT SHOW
+            //DrawBackGround
+            _spriteBatch.Draw(background, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+
+            //Draw STATS
+            _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
+                $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(0, 0), Color.White); //Ammos
+            if (countDown > 0) //draw countdown
+            {
+                _spriteBatch.DrawString(font,
+                    $"                  Controls:" +
+                    $"\nW - Up          UpArrowKey - Shoot Upward" +
+                    $"\nA - Left        LeftArrowKey - Shoot Left" +
+                    $"\nS - Down        DownArrowKey - Shoot Downward" +
+                    $"\nD - Right       RightArrowKey - Shoot Right"
+                    , new Vector2(400, (screenHeight - 100) / 2), Color.White);
+                _spriteBatch.DrawString(font, $"{countDown / 60} seconds before zombies break in."
+                    , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
+            }
+
+            //DrawPLayer&Enemy Asset
+            player.Draw(_spriteBatch);
+            foreach (Enemy zombies in zombies)
+            {
+                zombies.Draw(_spriteBatch);
+            }
+
+            foreach (bullet bullets in bullets)
+            {
+                bullets.Draw(_spriteBatch);
+            }
+
+        }
     }
 }
