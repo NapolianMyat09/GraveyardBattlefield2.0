@@ -198,7 +198,7 @@ namespace GraveyardBattlefield
                         //Leftclick start button, will start game
                         if (Process.MouseClick(mState, startButtonRect))
                         {
-                            gameState = GameState.FinalWave; //progresses to wave1
+                            gameState = GameState.Wave1; //progresses to wave1
                         }
 
                         //ExitButton to exit game
@@ -279,6 +279,7 @@ namespace GraveyardBattlefield
                     {
                         if (Process.SingleKeyPress(kbstate, Keys.Space))
                         {
+                            ResetGame();
                             gameState = GameState.Menu;
                             wave = 1;
                         }
@@ -346,19 +347,21 @@ namespace GraveyardBattlefield
                         DrawWave(waveTwoBackGround, Color.DarkBlue); //draw finalWaveAssets
                         if(zombies.Count <= 0)
                         {
-                            _spriteBatch.Draw(victoryBackground, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
-                            _spriteBatch.Draw(gameVictoryAsset, new Rectangle(screenWidth-gameVictoryWidth, 1, gameVictoryWidth, gameVictoryHeight), Color.White);
-                            _spriteBatch.Draw(zombieVictoryAsset, new Rectangle(1, 1, gameVictoryWidth, gameVictoryHeight), Color.White);
-                            _spriteBatch.Draw(victorySymbol, new Rectangle((screenWidth - gameVictoryWidth)/2, (screenHeight-gameVictoryHeight)/2, gameVictoryWidth, gameVictoryHeight), Color.White);
-                            _spriteBatch.DrawString(titleFont, "Press 'Space' to return to Main Menu", new Vector2(50, 750), Color.White);
+                            //Victory Screen
+                            _spriteBatch.Draw(victoryBackground, new Rectangle(0, 0, screenWidth, screenHeight), Color.White); //Background
+                            _spriteBatch.Draw(gameVictoryAsset, new Rectangle(screenWidth-gameVictoryWidth, 1, gameVictoryWidth, gameVictoryHeight), Color.White); //Soldier
+                            _spriteBatch.Draw(zombieVictoryAsset, new Rectangle(1, 1, gameVictoryWidth, gameVictoryHeight), Color.White); //Zombie
+                            _spriteBatch.Draw(victorySymbol, new Rectangle((screenWidth - gameVictoryWidth)/2, (screenHeight-gameVictoryHeight)/2, gameVictoryWidth, gameVictoryHeight), Color.White); //Victory Declaration
+                            _spriteBatch.DrawString(titleFont, "Press 'Space' to return to Main Menu", new Vector2(50, 750), Color.White); //Instruction to go back to main menu
                         }
                         break;
                     }
                 case GameState.GameOver: //if player dies, transition to this stage
                     {
-                        _spriteBatch.Draw(defeatScreen, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
-                        _spriteBatch.DrawString(bigTitleFont, "You Have Died", new Vector2((screenWidth -900)/2, screenHeight/2 -100), Color.DeepPink);
-                        _spriteBatch.DrawString(titleFont, "Press 'Space' to return to Main Menu", new Vector2(50, 750), Color.DeepPink);
+                        //Defeat Screen
+                        _spriteBatch.Draw(defeatScreen, new Rectangle(0, 0, screenWidth, screenHeight), Color.White); //background
+                        _spriteBatch.DrawString(bigTitleFont, "You Have Died", new Vector2((screenWidth -900)/2, screenHeight/2 -100), Color.DeepPink); //You have died announcement
+                        _spriteBatch.DrawString(titleFont, "Press 'Space' to return to Main Menu", new Vector2(50, 750), Color.DeepPink); //Instruction to go back to main menu
                         break;
                     }
             }
@@ -472,6 +475,7 @@ namespace GraveyardBattlefield
             playerBullet = 150;
             playerBackupBullet = 600;
             ResetCountDown(5);
+            doOnce = 0;
             zombies.Clear();
         }
 
