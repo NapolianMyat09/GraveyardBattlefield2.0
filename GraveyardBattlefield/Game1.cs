@@ -193,7 +193,13 @@ namespace GraveyardBattlefield
                         if(zombies.Count <= 0) //when player defeat zombie wave....
                         {
                             gameState = GameState.Wave2; //transition to next stage
-                            wave = 2;
+                            if(gameState == GameState.Wave2)
+                            {
+                                ResetCountDown(5); //reset countDown timer
+                                zombies.Clear(); //just in case, clear zombie list
+                                doOnce = 0; //reset doOnce so that we spawn zombie only once each wave
+                                wave = 2; //change current wave to 2 for display
+                            }
                         }
                         break;
                     }
@@ -206,7 +212,13 @@ namespace GraveyardBattlefield
                         if (zombies.Count <= 0) //when player defeat zombie wave....
                         {
                             gameState = GameState.Wave3; //transition to next stage
-                            wave = 3;
+                            if (gameState == GameState.Wave3)
+                            {
+                                ResetCountDown(5); //reset countDown timer
+                                zombies.Clear(); //just in case, clear zombie list
+                                doOnce = 0; //reset doOnce so that we spawn zombie only once each wave
+                                wave = 3; //change current wave to 3 for display
+                            }
                         }
                         break;
                     }
@@ -219,6 +231,25 @@ namespace GraveyardBattlefield
                         if (zombies.Count <= 0) //when player defeat zombie wave....
                         {
                             gameState = GameState.FinalWave; //transition to next stage
+                            if (gameState == GameState.FinalWave)
+                            {
+                                ResetCountDown(5); //reset countDown timer
+                                zombies.Clear(); //just in case, clear zombie list
+                                doOnce = 0; //reset doOnce so that we spawn zombie only once each wave
+                                wave = 4; //change current wave to 4 for display
+                            }
+                        }
+                        break;
+                    }
+                case GameState.FinalWave:
+                    {
+                        WaveSpawn(gameTime, 200); //Spawn zombie wave
+                        //Want to have a countdown to display victory message and give play time to celebrate before moving to next stage
+                        countDown--;
+
+                        if (zombies.Count <= 0) //when player defeat zombie wave....
+                        {
+                            ResetCountDown(10);
                         }
                         break;
                     }
@@ -275,19 +306,25 @@ namespace GraveyardBattlefield
                     }
                 case GameState.Wave1:
                     {
-                        DrawWave(waveOneBackGround);
-                        System.Diagnostics.Debug.WriteLine("It Works");
-                        wave = 1;
+                        DrawWave(waveOneBackGround, Color.White); //draw wave1Assets
                         break;
                     }
                 case GameState.Wave2:
                     {
-                        DrawWave(waveTwoBackGround);
-                        System.Diagnostics.Debug.WriteLine("It Worksx2");
-                        wave = 2;
+                        DrawWave(waveTwoBackGround, Color.Purple); //draw wave2Assets
                         break;
                     }
-                case GameState.GameOver:
+                case GameState.Wave3:
+                    {
+                        DrawWave(waveTwoBackGround, Color.Brown); //draw wave3Assets
+                        break;
+                    }
+                case GameState.FinalWave:
+                    {
+                        DrawWave(waveTwoBackGround, Color.DarkBlue); //draw finalWaveAssets
+                        break;
+                    }
+                case GameState.GameOver: //if player dies, transition to this stage
                     {
                         _spriteBatch.DrawString(font, $"Press Space to go back to Main menu", new Vector2(300, 600), Color.Black);
                         break;
@@ -402,16 +439,16 @@ namespace GraveyardBattlefield
             player.Health = 300;
             playerBullet = 150;
             playerBackupBullet = 600;
-            ResetCountDown();
+            ResetCountDown(5);
             zombies.Clear();
         }
 
         /// <summary>
         /// Reset CountDown
         /// </summary>
-        public void ResetCountDown()
+        public void ResetCountDown(int timeInSec)
         {
-            countDown = 5 * 60; //5 s multiplied by 60 miliseconds gives us 5 seconds in milliseconds
+            countDown = timeInSec * 60; //5 s multiplied by 60 miliseconds gives us 5 seconds in milliseconds
         }
 
         /// <summary>
@@ -505,14 +542,14 @@ namespace GraveyardBattlefield
         }
 
 
-        public void DrawWave(Texture2D background)
+        public void DrawWave(Texture2D background, Color color)
         {
             //Before we start the game, we want to have a countdown to get players time to be ready
             countDown--;
 
             //DONT DRAW ANYTHING BEFORE BACKGROUND OTHERWISE IT WONT SHOW
             //DrawBackGround
-            _spriteBatch.Draw(background, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+            _spriteBatch.Draw(background, new Rectangle(0, 0, screenWidth, screenHeight), color);
 
             //Draw STATS
             _spriteBatch.DrawString(font, $"player remaining health: {player.Health}\n" + //Health
