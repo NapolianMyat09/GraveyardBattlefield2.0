@@ -78,7 +78,7 @@ namespace GraveyardBattlefield
         private Texture2D waveTwoBackGround;
 
         //For GameFinished
-        private Texture2D gameOverAsset;
+        //Victory
         private Texture2D gameVictoryAsset;
         private int gameVictoryWidth;
         private int gameVictoryHeight;
@@ -86,7 +86,8 @@ namespace GraveyardBattlefield
         private Texture2D zombieVictoryAsset;
         private Texture2D victorySymbol;
         private Texture2D victoryBackground;
-
+        //Defeat
+        private Texture2D defeatScreen;
 
 
 
@@ -94,6 +95,7 @@ namespace GraveyardBattlefield
         //FONTS
         private SpriteFont font;
         private SpriteFont titleFont;
+        private SpriteFont bigTitleFont;
 
         //PROPERTIES
         public static int Width
@@ -159,6 +161,7 @@ namespace GraveyardBattlefield
             zombieVictoryAsset = this.Content.Load<Texture2D>("zombieVictory");
             victorySymbol = this.Content.Load<Texture2D>("VictorySymbol");
             victoryBackground = this.Content.Load<Texture2D>("VictoryBackground");
+            defeatScreen = this.Content.Load<Texture2D>("DefeatImage");
 
 
             //gameOverAsset = this.Content.Load<Texture2D>("");
@@ -166,6 +169,7 @@ namespace GraveyardBattlefield
             //LOAD FONT
             font = Content.Load<SpriteFont>("Font");
             titleFont = Content.Load<SpriteFont>("TitleFont");
+            bigTitleFont = Content.Load<SpriteFont>("BigTitleFont");
         }
 
         protected override void Update(GameTime gameTime)
@@ -263,6 +267,8 @@ namespace GraveyardBattlefield
                     {
                         WaveSpawn(gameTime, 200); //Spawn zombie wave
                         //Show VICTORY MESSAGE
+                        
+                        //Press space to loop back to main menu
                         if (Process.SingleKeyPress(kbstate, Keys.Space))
                         {
                             gameState = GameState.Menu;
@@ -350,7 +356,9 @@ namespace GraveyardBattlefield
                     }
                 case GameState.GameOver: //if player dies, transition to this stage
                     {
-                        _spriteBatch.DrawString(font, $"Press Space to go back to Main menu", new Vector2(300, 600), Color.Black);
+                        _spriteBatch.Draw(defeatScreen, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+                        _spriteBatch.DrawString(bigTitleFont, "You Have Died", new Vector2((screenWidth -900)/2, screenHeight/2 -100), Color.DeepPink);
+                        _spriteBatch.DrawString(titleFont, "Press 'Space' to return to Main Menu", new Vector2(50, 750), Color.DeepPink);
                         break;
                     }
             }
