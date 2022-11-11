@@ -247,10 +247,6 @@ namespace GraveyardBattlefield
                         //Want to have a countdown to display victory message and give play time to celebrate before moving to next stage
                         countDown--;
 
-                        if (zombies.Count <= 0) //when player defeat zombie wave....
-                        {
-                            ResetCountDown(10);
-                        }
                         break;
                     }
                 case GameState.GameOver:
@@ -262,9 +258,9 @@ namespace GraveyardBattlefield
                         }
                         break;
                     }
-                case GameState.EndGame:
+                case GameState.EndGame: //if exitButton in menu is clicked
                     {
-                        Environment.Exit(0);
+                        Environment.Exit(0); //Exit game
                         break;
                     }
                 default:
@@ -322,6 +318,9 @@ namespace GraveyardBattlefield
                 case GameState.FinalWave:
                     {
                         DrawWave(waveTwoBackGround, Color.DarkBlue); //draw finalWaveAssets
+                        if(zombies.Count <= 0)
+                        {
+                        }
                         break;
                     }
                 case GameState.GameOver: //if player dies, transition to this stage
