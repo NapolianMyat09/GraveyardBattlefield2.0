@@ -25,7 +25,6 @@ namespace GraveyardBattlefield
         Wave3,
         FinalWave,
         GameOver,
-        EndGame
     }
     public class Game1 : Game
     {
@@ -44,8 +43,8 @@ namespace GraveyardBattlefield
         private int playerBackupBullet = 600;
 
         //PREVIOUS KEYBOARD/MOUSE STATES
-        //private KeyboardState previousKBState;
-        //private MouseState previousMState;
+        private KeyboardState previousKBState;
+        private MouseState previousMState;
 
         //RANDOM
         private Random randGen = new Random();
@@ -195,18 +194,22 @@ namespace GraveyardBattlefield
                         //}
                         #endregion
 
+                        if (mState.LeftButton == ButtonState.Released && previousMState.LeftButton == ButtonState.Pressed)
+                        //if mouse was clicked
+                        {
+                            if (exitButtonRect.Contains(mState.Position))//and if mouse was clicking on exitButton
+                            {
+                                zombies.Clear(); //reset zombie count
+                                Exit();
+                            }
+                        }
                         //Leftclick start button, will start game
                         if (Process.MouseClick(mState, startButtonRect))
                         {
                             gameState = GameState.Wave1; //progresses to wave1
                         }
+                        previousMState = mState; //update previous mouse state
 
-                        //ExitButton to exit game
-                        if (Process.MouseClick(mState, exitButtonRect))
-                        {
-                            zombies.Clear();
-                            gameState = GameState.EndGame;
-                        }
                         break;
                     }
                 case GameState.Wave1:
@@ -283,11 +286,6 @@ namespace GraveyardBattlefield
                             gameState = GameState.Menu;
                             wave = 1;
                         }
-                        break;
-                    }
-                case GameState.EndGame: //if exitButton in menu is clicked
-                    {
-                        Environment.Exit(0); //Exit game
                         break;
                     }
                 default:
