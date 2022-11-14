@@ -203,6 +203,13 @@ namespace GraveyardBattlefield
                                 Exit();
                             }
                         }
+                        //if (Process.MouseClick(mState, exitButtonRect))
+                        //{
+                        //    if(exitButtonRect == Rectanngle(0,0,0,0))
+                        //        Exit();
+                        //    else if(Buttons == Rectangle(playButton))
+                        //        gameState = GameState.Wave1;
+                        //}
                         //Leftclick start button, will start game
                         if (Process.MouseClick(mState, startButtonRect))
                         {
@@ -529,7 +536,7 @@ namespace GraveyardBattlefield
                 bullets[i].shootBullet();
                 for (int j = 0; j < zombies.Count; j++)
                 {
-                    if (bullets[i].Position.Contains(zombies[j].Position.X + 15, zombies[j].Position.Y + 15))
+                    if (bullets[i].Position.Contains(zombies[j].Position.X, zombies[j].Position.Y))
                     //plus 15 is to make sure bullet hit zombie in middle
                     //if zombie position is inside bullet, will take dmg(Suppose to be vice-versa but it runs so its a hassle to change it)
                     {
