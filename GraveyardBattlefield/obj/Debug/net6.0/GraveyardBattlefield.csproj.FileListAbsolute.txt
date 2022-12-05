@@ -180,3 +180,13 @@ C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net
 C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieVictory.xnb
 C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\DefeatImage.xnb
 C:\Users\myatn\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\BigTitleFont.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\BigTitleFont.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\DefeatImage.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\ExitButton.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\snowfield.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\SoldierVictory.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\StartButton.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\TitleFont.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\VictoryBackground.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\VictorySymbol.xnb
+C:\Users\35481\Source\Repos\GDAPS2GameProject\GraveyardBattlefield\bin\Debug\net6.0\Content\zombieVictory.xnb

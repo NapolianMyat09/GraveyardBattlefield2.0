@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading;
 using System.Linq;
+using System.Timers;
 
 namespace GraveyardBattlefield
 {
@@ -26,12 +27,18 @@ namespace GraveyardBattlefield
         FinalWave,
         GameOver,
     }
+    public enum BulletState
+    {
+        HaveBullet,
+        DontHaveBullet
+    }
     public class Game1 : Game
     {
         //FIELDS
         //SPRITEBATCH
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private BulletState bulletState = BulletState.HaveBullet;
         private GameState gameState = GameState.Menu;
 
         //ASSET THAT MOVES AND RELATED VARIABLES
@@ -41,6 +48,7 @@ namespace GraveyardBattlefield
         private List<bullet> bullets = new List<bullet>();
         private int playerBullet = 150;
         private int playerBackupBullet = 600;
+        private double reloadindTime;
 
         //PREVIOUS KEYBOARD/MOUSE STATES
         private KeyboardState previousKBState;
@@ -128,6 +136,7 @@ namespace GraveyardBattlefield
             gameVictoryWidth = screenWidth / 2;
             gameVictoryHeight = screenHeight;
             playerIsVictor = false;
+            reloadindTime = 3.5;
 
             _graphics.ApplyChanges(); //apply screen change
             base.Initialize();
@@ -203,14 +212,6 @@ namespace GraveyardBattlefield
                                 Exit();
                             }
                         }
-                        //if (Process.MouseClick(mState, exitButtonRect))
-                        //{
-                        //    if(exitButtonRect == Rectanngle(0,0,0,0))
-                        //        Exit();
-                        //    else if(Buttons == Rectangle(playButton))
-                        //        gameState = GameState.Wave1;
-                        //}
-                        //Leftclick start button, will start game
                         if (Process.MouseClick(mState, startButtonRect))
                         {
                             gameState = GameState.Wave1; //progresses to wave1
@@ -235,6 +236,15 @@ namespace GraveyardBattlefield
                                 wave = 2; //change current wave to 2 for display
                             }
                         }
+                        //check player's bullet and reload if needed
+                        if (bulletState == BulletState.DontHaveBullet)
+                        {
+                            reloadindTime -= gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                        if (reloadindTime < 0)
+                        {
+                            Reload();
+                        }
                         break;
                     }
                 case GameState.Wave2:
@@ -252,6 +262,15 @@ namespace GraveyardBattlefield
                                 doOnce = 0; //reset doOnce so that we spawn zombie only once each wave
                                 wave = 3; //change current wave to 3 for display
                             }
+                        }
+                        //check player's bullet and reload if needed
+                        if (bulletState == BulletState.DontHaveBullet)
+                        {
+                            reloadindTime -= gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                        if (reloadindTime < 0)
+                        {
+                            Reload();
                         }
                         break;
                     }
@@ -271,6 +290,15 @@ namespace GraveyardBattlefield
                                 wave = 4; //change current wave to 4 for display
                             }
                         }
+                        //check player's bullet and reload if needed
+                        if (bulletState == BulletState.DontHaveBullet)
+                        {
+                            reloadindTime -= gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                        if (reloadindTime < 0)
+                        {
+                            Reload();
+                        }
                         break;
                     }
                 case GameState.FinalWave:
@@ -283,6 +311,15 @@ namespace GraveyardBattlefield
                         {
                             gameState = GameState.Menu;
                         }
+                        //check player's bullet and reload if needed
+                        if (bulletState == BulletState.DontHaveBullet)
+                        {
+                            reloadindTime -= gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+                        if (reloadindTime < 0)
+                        {
+                            Reload();
+                        }
                         break;
                     }
                 case GameState.GameOver:
@@ -293,11 +330,6 @@ namespace GraveyardBattlefield
                             gameState = GameState.Menu;
                             wave = 1;
                         }
-                        break;
-                    }
-                default:
-                    {
-                        //OOPS
                         break;
                     }
             }
@@ -370,14 +402,18 @@ namespace GraveyardBattlefield
                         break;
                     }
             }
+
+            //draw reload notification when player run out of bullets
+            if (bulletState == BulletState.DontHaveBullet && gameState != GameState.Menu&& gameState != GameState.GameOver)
+            {
+                _spriteBatch.DrawString(font, $"Reloading! {string.Format("{0:0.00}", reloadindTime)}seconds before reload is done!", new Vector2(screenWidth/3, screenHeight/2), Color.White);
+            }
             _spriteBatch.End();
             base.Draw(gameTime);
         }
 
         private void NextWave(int numOfZombiesInWave)
         {
-            //if (wave == 1)
-            //{
                 for (int i = 0; i < numOfZombiesInWave; i++)
                 {
                     int randNum = randGen.Next(0, 4);
@@ -389,14 +425,7 @@ namespace GraveyardBattlefield
                         zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), 0, 30, 30), zombieAsset));
                     else if (randNum == 3)
                         zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), screenHeight, 30, 30), zombieAsset));
-                    else
-                    { //nth happens
-                    }
                 }
-            //}
-            ////sprint 4
-            //else if(wave == 2) { }
-            //else if(wave == 3) { } 
         }
 
         //need to convert 
@@ -462,8 +491,14 @@ namespace GraveyardBattlefield
                     playerBullet--;
                 }
             }
-            //if we still have the backup bullets
-            if(playerBackupBullet >= 150)
+            if (playerBullet == 0)
+            {
+                bulletState = BulletState.DontHaveBullet;
+            }
+        }
+        public void Reload()
+        {
+            if (playerBackupBullet >= 150)
             {
                 if (playerBullet == 0)
                 {
@@ -471,8 +506,9 @@ namespace GraveyardBattlefield
                     playerBackupBullet -= 150;
                 }
             }
+            bulletState = BulletState.HaveBullet;
+            reloadindTime = 3.5;
         }
-
         //reset game method
         public void ResetGame()
         {
@@ -511,21 +547,6 @@ namespace GraveyardBattlefield
                 NextWave(numOfZombieInWave); //spawn zombie
                 doOnce++; //increment doOnce so we only do this once
             }
-
-            //OLD CODE FOR BULLET
-            #region
-            //foreach (bullet bullet in bullets)
-            //{
-            //    bullet.shootBullet();
-            //    //foreach (Enemy zombie in zombies)
-            //    //{
-            //    //    if(bullets.Position.Contains(zombie.Position))
-            //    //    {
-            //    //        zombie.TakeDamage();
-            //    //    }
-            //    //}
-            //}
-            #endregion
 
             //can still shoot even if countdown does not reach 0
             AddBullet();
@@ -625,7 +646,7 @@ namespace GraveyardBattlefield
                         break; //oops
                 }
             }
-            if (countDown > 0) //draw countdown
+            if (countDown > 0 && wave == 1) //draw countdown
             {
                 _spriteBatch.DrawString(font,
                     $"                  Controls:\n" +
@@ -634,7 +655,12 @@ namespace GraveyardBattlefield
                     $"\nS - Down        DownArrowKey - Shoot Downward" +
                     $"\nD - Right       RightArrowKey - Shoot Right"
                     , new Vector2(400, (screenHeight - 100) / 2), Color.White);
-                _spriteBatch.DrawString(font, $"{countDown / 60} seconds before zombies break in."
+                _spriteBatch.DrawString(font, $"{countDown / 60} seconds before zombies break in!"
+                    , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
+            }
+            else if (countDown > 0)
+            {
+                _spriteBatch.DrawString(font, $"{countDown / 60} seconds before next zombie wave break in!"
                     , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
             }
         }
