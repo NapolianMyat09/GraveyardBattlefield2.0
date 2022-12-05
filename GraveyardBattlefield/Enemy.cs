@@ -92,7 +92,7 @@ namespace GraveyardBattlefield
         /// </summary>
         public void TakeDamage()
         {
-            this.Health --; 
+            this.Health -= 10; 
             if(this.Health <= 0)
             {
                 IsAlive = false;
