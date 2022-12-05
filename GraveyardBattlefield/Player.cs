@@ -60,7 +60,7 @@ namespace GraveyardBattlefield
         {
             if (currentKbState.IsKeyDown(Keys.W)) //W for up
             {
-                position.Y -= 4f;
+                position.Y -= 2.5f;
                 if (position.Y < 0)
                 {
                     position.Y = 0;
@@ -70,7 +70,7 @@ namespace GraveyardBattlefield
             }
             if (currentKbState.IsKeyDown(Keys.A)) //A for left
             {
-                position.X -= 4f;
+                position.X -= 2.5f;
                 if (position.X < 0)
                 {
                     position.X = 0;
@@ -80,7 +80,7 @@ namespace GraveyardBattlefield
             }
             if (currentKbState.IsKeyDown(Keys.S)) //S for down
             {
-                position.Y += 4f;
+                position.Y += 2.5f;
                 if (position.Y > Game1.Height - PlayerHeight)
                 {
                     position.Y = Game1.Height - PlayerHeight;
@@ -90,7 +90,7 @@ namespace GraveyardBattlefield
             }
             if (currentKbState.IsKeyDown(Keys.D)) //D for right
             {
-                position.X += 4f;
+                position.X += 2.5f;
                 if (position.X > Game1.Width - PlayerWidth)
                 {
                     position.X = Game1.Width - PlayerWidth;

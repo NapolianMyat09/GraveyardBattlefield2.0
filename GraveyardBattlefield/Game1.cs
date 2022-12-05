@@ -413,7 +413,7 @@ namespace GraveyardBattlefield
             {
                 _spriteBatch.DrawString(font, $"Reloading! {string.Format("{0:0.00}", reloadindTime)}seconds before reload is done!", new Vector2(400, (screenHeight / 2)), Color.White);
             }
-            else if (bulletState == BulletState.TotallyDontHaveBullet)
+            else if (bulletState == BulletState.TotallyDontHaveBullet && gameState != GameState.Menu && gameState != GameState.GameOver)
             {
                 _spriteBatch.DrawString(font, $"You are doomed! No bullets left for you, wait till you death!", new Vector2(400, (screenHeight / 2)), Color.White);
             }
