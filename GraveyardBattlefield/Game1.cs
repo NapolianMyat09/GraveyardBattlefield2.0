@@ -43,6 +43,7 @@ namespace GraveyardBattlefield
 
         //ASSET THAT MOVES AND RELATED VARIABLES
         private Player player;
+        private int playerScore;
         private List<Enemy> zombies = new List<Enemy>();
         //ammo assets
         private List<bullet> bullets = new List<bullet>();
@@ -137,6 +138,7 @@ namespace GraveyardBattlefield
             gameVictoryHeight = screenHeight;
             playerIsVictor = false;
             reloadindTime = 3.5;
+            playerScore = 0;
 
             _graphics.ApplyChanges(); //apply screen change
             base.Initialize();
@@ -595,6 +597,7 @@ namespace GraveyardBattlefield
                     if (zombies[i].IsAlive == false)
                     {
                         zombies.Remove(zombies[i]);
+                        playerScore += 10;
                     }
                     else
                     {
@@ -637,7 +640,8 @@ namespace GraveyardBattlefield
             if (playerIsVictor == false)
             {
                 _spriteBatch.DrawString(font, $"Player remaining health: {player.Health}\n" + //Health
-                    $"Ammo: {playerBullet}/{playerBackupBullet}", new Vector2(10, 10), Color.White); //Ammos
+                    $"Ammo: {playerBullet}/{playerBackupBullet}\n" +
+                    $"Score: {playerScore}", new Vector2(10, 10), Color.White); //Ammos
 
                 switch(wave)
                 {
