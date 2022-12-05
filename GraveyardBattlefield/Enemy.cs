@@ -52,7 +52,7 @@ namespace GraveyardBattlefield
         {
             bool XequalPlayer = false;
             bool YequalPlayer = false;
-            int zombieSpeed = 2;
+            int zombieSpeed = 1;
             int zombieContactWithPlayer = 10;
             //change X value base on player's X value
             if (player.Position.X + zombieContactWithPlayer < position.X) 
