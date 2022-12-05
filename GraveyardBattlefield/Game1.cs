@@ -402,6 +402,7 @@ namespace GraveyardBattlefield
                             _spriteBatch.Draw(zombieVictoryAsset, new Rectangle(1, 1, gameVictoryWidth, gameVictoryHeight), Color.White); //Zombie
                             _spriteBatch.Draw(victorySymbol, new Rectangle((screenWidth - gameVictoryWidth) / 2, (screenHeight - gameVictoryHeight) / 2, gameVictoryWidth, gameVictoryHeight), Color.White); //Victory Declaration
                             _spriteBatch.DrawString(titleFont, "Press 'Space' to return to Main Menu", new Vector2(50, 750), Color.White); //Instruction to go back to main menu
+                            _spriteBatch.DrawString(titleFont, "Score: " + playerScore, new Vector2(550, 100), Color.White);
                         }
                         break;
                     }
@@ -411,6 +412,7 @@ namespace GraveyardBattlefield
                         _spriteBatch.Draw(defeatScreen, new Rectangle(0, 0, screenWidth, screenHeight), Color.White); //background
                         _spriteBatch.DrawString(bigTitleFont, "You Have Died", new Vector2((screenWidth - 900) / 2, screenHeight / 2 - 100), Color.DeepPink); //You have died announcement
                         _spriteBatch.DrawString(titleFont, "Press 'Space' to return to Main Menu", new Vector2(50, 750), Color.DeepPink); //Instruction to go back to main menu
+                        _spriteBatch.DrawString(titleFont, "Score: " + playerScore, new Vector2(550, 100), Color.White);
                         break;
                     }
             }
