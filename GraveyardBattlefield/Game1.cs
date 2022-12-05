@@ -410,7 +410,15 @@ namespace GraveyardBattlefield
             //draw reload notification when player run out of bullets
             if (bulletState == BulletState.DontHaveBullet && gameState != GameState.Menu && gameState != GameState.GameOver)
             {
-                _spriteBatch.DrawString(font, $"Reloading! {string.Format("{0:0.00}", reloadindTime)}seconds before reload is done!", new Vector2(400, (screenHeight / 2) - 200), Color.White);
+                if (bullets.Count == 0)
+                {
+                    _spriteBatch.DrawString(font, $"Alert! No more bullets left to reload!", new Vector2(400, (screenHeight / 2) - 200), Color.White);
+
+                }
+                else
+                {
+                    _spriteBatch.DrawString(font, $"Reloading! {string.Format("{0:0.00}", reloadindTime)}seconds before reload is done!", new Vector2(400, (screenHeight / 2)), Color.White);
+                }
             }
             _spriteBatch.End();
             base.Draw(gameTime);
