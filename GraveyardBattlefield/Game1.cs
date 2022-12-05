@@ -84,6 +84,7 @@ namespace GraveyardBattlefield
         //For Waves
         private Texture2D waveOneBackGround;
         private Texture2D waveTwoBackGround;
+        private Texture2D woodSign;
 
         //For GameFinished
         //Victory
@@ -126,7 +127,7 @@ namespace GraveyardBattlefield
         //METHODS
         protected override void Initialize()
         {
-            
+
             // TODO: Add your initialization logic here
             _graphics.PreferredBackBufferWidth = 1500;
             _graphics.PreferredBackBufferHeight = 950;
@@ -158,13 +159,14 @@ namespace GraveyardBattlefield
             //MENU
             menuScreen = this.Content.Load<Texture2D>("mainMenuScreen");
             startButton = this.Content.Load<Texture2D>("StartButton");
-            startButtonRect = new Rectangle((screenWidth - 350)/2, 700, 350, 150);
+            startButtonRect = new Rectangle((screenWidth - 350) / 2, 700, 350, 150);
             exitButton = this.Content.Load<Texture2D>("ExitButton");
-            exitButtonRect = new Rectangle(screenWidth-115, 20, 85, 85);
+            exitButtonRect = new Rectangle(screenWidth - 115, 20, 85, 85);
 
             //WAVES
             waveOneBackGround = this.Content.Load<Texture2D>("graveyard");
             waveTwoBackGround = this.Content.Load<Texture2D>("snowfield");
+            woodSign = this.Content.Load<Texture2D>("woodSign");
 
             //GAMEFINISH SCREEN
             gameVictoryAsset = this.Content.Load<Texture2D>("SoldierVictory");
@@ -227,10 +229,10 @@ namespace GraveyardBattlefield
                         WaveSpawn(gameTime, 20); //Spawn zombie wave
                         //Want to have a countdown to display victory message and give play time to celebrate before moving to next stage
 
-                        if(zombies.Count <= 0) //when player defeat zombie wave....
+                        if (zombies.Count <= 0) //when player defeat zombie wave....
                         {
                             gameState = GameState.Wave2; //transition to next stage
-                            if(gameState == GameState.Wave2)
+                            if (gameState == GameState.Wave2)
                             {
                                 ResetCountDown(5); //reset countDown timer
                                 zombies.Clear(); //just in case, clear zombie list
@@ -306,8 +308,8 @@ namespace GraveyardBattlefield
                 case GameState.FinalWave:
                     {
                         WaveSpawn(gameTime, 200); //Spawn zombie wave
-                        //Show VICTORY MESSAGE
-                        
+                                                  //Show VICTORY MESSAGE
+
                         //Press space to loop back to main menu
                         if (Process.SingleKeyPress(kbstate, Keys.Space))
                         {
@@ -384,13 +386,13 @@ namespace GraveyardBattlefield
                 case GameState.FinalWave:
                     {
                         DrawWave(waveTwoBackGround, Color.DarkBlue); //draw finalWaveAssets
-                        if(zombies.Count <= 0)
+                        if (zombies.Count <= 0)
                         {
                             //Victory Screen
                             _spriteBatch.Draw(victoryBackground, new Rectangle(0, 0, screenWidth, screenHeight), Color.White); //Background
-                            _spriteBatch.Draw(gameVictoryAsset, new Rectangle(screenWidth-gameVictoryWidth, 1, gameVictoryWidth, gameVictoryHeight), Color.White); //Soldier
+                            _spriteBatch.Draw(gameVictoryAsset, new Rectangle(screenWidth - gameVictoryWidth, 1, gameVictoryWidth, gameVictoryHeight), Color.White); //Soldier
                             _spriteBatch.Draw(zombieVictoryAsset, new Rectangle(1, 1, gameVictoryWidth, gameVictoryHeight), Color.White); //Zombie
-                            _spriteBatch.Draw(victorySymbol, new Rectangle((screenWidth - gameVictoryWidth)/2, (screenHeight-gameVictoryHeight)/2, gameVictoryWidth, gameVictoryHeight), Color.White); //Victory Declaration
+                            _spriteBatch.Draw(victorySymbol, new Rectangle((screenWidth - gameVictoryWidth) / 2, (screenHeight - gameVictoryHeight) / 2, gameVictoryWidth, gameVictoryHeight), Color.White); //Victory Declaration
                             _spriteBatch.DrawString(titleFont, "Press 'Space' to return to Main Menu", new Vector2(50, 750), Color.White); //Instruction to go back to main menu
                         }
                         break;
@@ -399,16 +401,16 @@ namespace GraveyardBattlefield
                     {
                         //Defeat Screen
                         _spriteBatch.Draw(defeatScreen, new Rectangle(0, 0, screenWidth, screenHeight), Color.White); //background
-                        _spriteBatch.DrawString(bigTitleFont, "You Have Died", new Vector2((screenWidth -900)/2, screenHeight/2 -100), Color.DeepPink); //You have died announcement
+                        _spriteBatch.DrawString(bigTitleFont, "You Have Died", new Vector2((screenWidth - 900) / 2, screenHeight / 2 - 100), Color.DeepPink); //You have died announcement
                         _spriteBatch.DrawString(titleFont, "Press 'Space' to return to Main Menu", new Vector2(50, 750), Color.DeepPink); //Instruction to go back to main menu
                         break;
                     }
             }
 
             //draw reload notification when player run out of bullets
-            if (bulletState == BulletState.DontHaveBullet && gameState != GameState.Menu&& gameState != GameState.GameOver)
+            if (bulletState == BulletState.DontHaveBullet && gameState != GameState.Menu && gameState != GameState.GameOver)
             {
-                _spriteBatch.DrawString(font, $"Reloading! {string.Format("{0:0.00}", reloadindTime)}seconds before reload is done!", new Vector2(screenWidth/3, screenHeight/2), Color.White);
+                _spriteBatch.DrawString(font, $"Reloading! {string.Format("{0:0.00}", reloadindTime)}seconds before reload is done!", new Vector2(400, (screenHeight / 2) - 200), Color.White);
             }
             _spriteBatch.End();
             base.Draw(gameTime);
@@ -416,18 +418,18 @@ namespace GraveyardBattlefield
 
         private void NextWave(int numOfZombiesInWave)
         {
-                for (int i = 0; i < numOfZombiesInWave; i++)
-                {
-                    int randNum = randGen.Next(0, 4);
-                    if (randNum == 0)
-                        zombies.Add(new Enemy(new Rectangle(0, randGen.Next(0, screenHeight), 30, 30), zombieAsset));
-                    else if (randNum == 1)
-                        zombies.Add(new Enemy(new Rectangle(screenWidth, randGen.Next(0, screenHeight), 30, 30), zombieAsset));
-                    else if (randNum == 2)
-                        zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), 0, 30, 30), zombieAsset));
-                    else if (randNum == 3)
-                        zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), screenHeight, 30, 30), zombieAsset));
-                }
+            for (int i = 0; i < numOfZombiesInWave; i++)
+            {
+                int randNum = randGen.Next(0, 4);
+                if (randNum == 0)
+                    zombies.Add(new Enemy(new Rectangle(0, randGen.Next(0, screenHeight), 30, 30), zombieAsset));
+                else if (randNum == 1)
+                    zombies.Add(new Enemy(new Rectangle(screenWidth, randGen.Next(0, screenHeight), 30, 30), zombieAsset));
+                else if (randNum == 2)
+                    zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), 0, 30, 30), zombieAsset));
+                else if (randNum == 3)
+                    zombies.Add(new Enemy(new Rectangle(randGen.Next(0, screenWidth), screenHeight, 30, 30), zombieAsset));
+            }
         }
 
         //need to convert 
@@ -544,7 +546,7 @@ namespace GraveyardBattlefield
             //Player can still move even if countdown is not 0
             player.Update(gameTime, kbstate);
 
-            if((zombies == null || zombies.Count == 0) && doOnce != 1) //if zombies do not exist, or is null, we will spawn zombies only once
+            if ((zombies == null || zombies.Count == 0) && doOnce != 1) //if zombies do not exist, or is null, we will spawn zombies only once
             {
                 NextWave(numOfZombieInWave); //spawn zombie
                 doOnce++; //increment doOnce so we only do this once
@@ -554,7 +556,7 @@ namespace GraveyardBattlefield
             AddBullet();
 
             //For bullets shot hitting zombie
-            foreach(bullet Bullet in bullets)
+            foreach (bullet Bullet in bullets)
             {
                 Bullet.shootBullet();
                 for (int j = 0; j < zombies.Count; j++)
@@ -568,7 +570,7 @@ namespace GraveyardBattlefield
                     }
                 }
             }
-            for(int i = 0; i < bullets.Count; i++)
+            for (int i = 0; i < bullets.Count; i++)
             {
                 if (bullets[i].Hitted)
                 {
@@ -614,7 +616,12 @@ namespace GraveyardBattlefield
             //loop through the game
         }
 
-
+        /// <summary>
+        /// Pre-Wave introduction
+        /// Shows the controls for the game and a timer before the game starts
+        /// </summary>
+        /// <param name="background"></param>
+        /// <param name="color"></param>
         public void DrawWave(Texture2D background, Color color)
         {
             //Before we start the game, we want to have a countdown to get players time to be ready
@@ -643,15 +650,15 @@ namespace GraveyardBattlefield
                     $"Ammo: {playerBullet}/{playerBackupBullet}\n" +
                     $"Score: {playerScore}", new Vector2(10, 10), Color.White); //Ammos
 
-                switch(wave)
+                switch (wave)
                 {
                     case 1:
                     case 2:
                     case 3:
-                        _spriteBatch.DrawString(font, $"Wave#: {wave}", new Vector2(screenWidth-200, 10), Color.White);
+                        _spriteBatch.DrawString(font, $"Wave#: {wave}", new Vector2(screenWidth - 200, 10), Color.White);
                         break;
                     case 4:
-                        _spriteBatch.DrawString(font, $"Wave#: Final Wave", new Vector2(screenWidth-400, 10), Color.White);
+                        _spriteBatch.DrawString(font, $"Wave#: Final Wave", new Vector2(screenWidth - 400, 10), Color.White);
                         break;
                     default:
                         break; //oops
@@ -659,20 +666,22 @@ namespace GraveyardBattlefield
             }
             if (countDown > 0 && wave == 1) //draw countdown
             {
+                _spriteBatch.Draw(woodSign, new Vector2(100, (screenHeight / 3)+20), Color.White);
                 _spriteBatch.DrawString(font,
-                    $"                  Controls:\n" +
-                    $"\nW - Up          UpArrowKey - Shoot Upward" +
-                    $"\nA - Left        LeftArrowKey - Shoot Left" +
-                    $"\nS - Down        DownArrowKey - Shoot Downward" +
-                    $"\nD - Right       RightArrowKey - Shoot Right"
-                    , new Vector2(400, (screenHeight - 100) / 2), Color.White);
+                    "Controls:\n" +
+                    "\nW - Up          Up Arrow Key         - Shoot Upward" +
+                    "\nA - Left          Left Arrow Key       - Shoot Left" +
+                    "\nS - Down       Down Arrow Key    - Shoot Downward" +
+                    "\nD - Right        Right Arrow Key    - Shoot Right"
+                    , new Vector2(350, (screenHeight / 2) - 80), Color.Black);
+
                 _spriteBatch.DrawString(font, $"{countDown / 60} seconds before zombies break in!"
-                    , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
+                    , new Vector2(400, (screenHeight/2) - 200), Color.White);//num of seconds remaining
             }
             else if (countDown > 0)
             {
                 _spriteBatch.DrawString(font, $"{countDown / 60} seconds before next zombie wave break in!"
-                    , new Vector2(500, (screenHeight - 200) / 2), Color.White);//num of seconds remaining
+                    , new Vector2(400, (screenHeight / 2) - 200), Color.White);//num of seconds remaining
             }
         }
     }
