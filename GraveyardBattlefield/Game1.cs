@@ -557,7 +557,7 @@ namespace GraveyardBattlefield
                 Bullet.shootBullet();
                 for (int j = 0; j < zombies.Count; j++)
                 {
-                    if (Bullet.Position.Contains(zombies[j].Position.X, zombies[j].Position.Y))
+                    if (zombies[j].Position.Contains(Bullet.Position.X, Bullet.Position.Y))
                     //plus 15 is to make sure bullet hit zombie in middle
                     //if zombie position is inside bullet, will take dmg(Suppose to be vice-versa but it runs so its a hassle to change it)
                     {
