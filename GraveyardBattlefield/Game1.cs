@@ -6,6 +6,7 @@ using System;
 using System.Threading;
 using System.Linq;
 using System.Timers;
+using System.IO;
 
 namespace GraveyardBattlefield
 {
@@ -45,6 +46,7 @@ namespace GraveyardBattlefield
         //ASSET THAT MOVES AND RELATED VARIABLES
         private Player player;
         private int playerScore;
+        private int highestRecord;
         private List<Enemy> zombies = new List<Enemy>();
         //ammo assets
         private List<bullet> bullets = new List<bullet>();
@@ -140,6 +142,7 @@ namespace GraveyardBattlefield
             gameVictoryHeight = screenHeight;
             playerIsVictor = false;
             reloadindTime = 3.5;
+            ReadHighestScore();
             playerScore = 0;
 
             _graphics.ApplyChanges(); //apply screen change
@@ -329,6 +332,10 @@ namespace GraveyardBattlefield
                     }
                 case GameState.GameOver:
                     {
+                        if (playerScore > highestRecord)
+                        {
+                            UpdateHihestScore();
+                        }
                         if (Process.SingleKeyPress(kbstate, Keys.Space))
                         {
                             ResetGame();
@@ -535,6 +542,7 @@ namespace GraveyardBattlefield
             ResetCountDown(5);
             doOnce = 0;
             zombies.Clear();
+            playerScore = 0;
         }
 
         /// <summary>
@@ -661,7 +669,8 @@ namespace GraveyardBattlefield
             {
                 _spriteBatch.DrawString(font, $"Player remaining health: {player.Health}\n" + //Health
                     $"Ammo: {playerBullet}/{playerBackupBullet}\n" +
-                    $"Score: {playerScore}", new Vector2(10, 10), Color.White); //Ammos
+                    $"Score: {playerScore}\n" +
+                    $"Highest: {highestRecord}", new Vector2(10, 10), Color.White); //Ammos
 
                 switch (wave)
                 {
@@ -696,6 +705,39 @@ namespace GraveyardBattlefield
                 _spriteBatch.DrawString(font, $"{countDown / 60} seconds before next zombie wave break in!"
                     , new Vector2(400, (screenHeight / 2) - 200), Color.White);//num of seconds remaining
             }
+        }
+
+        public void ReadHighestScore()
+        {
+            //text file created 
+            String filename = "..\\..\\..\\Score.txt";
+
+            // Create the variable outside the try
+            StreamReader input = null;
+            try
+            {
+                // Creating the stream reader opens the file
+                input = new StreamReader(filename);
+                highestRecord = Convert.ToInt16(input.ReadLine());
+                input.Close();
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        public void UpdateHihestScore()
+        {
+            //delete the old file and replace it with new
+            File.Delete("..\\..\\..\\Score.txt");
+            String newfile = "..\\..\\..\\Score.txt";
+            StreamWriter output = new StreamWriter(newfile);
+
+            //loop through to write data
+            output.WriteLine($"{playerScore}");
+            highestRecord = playerScore;
+            output.Close();
         }
     }
 }
