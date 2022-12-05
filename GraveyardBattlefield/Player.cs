@@ -52,7 +52,7 @@ namespace GraveyardBattlefield
             frame = 0;
             timeCounter = 0;
             timePerFrame = 0.1;
-            Health = 300;
+            Health = 100;
         }
 
         //PLAYER MOVEMENT

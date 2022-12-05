@@ -536,7 +536,7 @@ namespace GraveyardBattlefield
         //reset game method
         public void ResetGame()
         {
-            player.Health = 300;
+            player.Health = 100;
             playerBullet = 150;
             playerBackupBullet = 600;
             ResetCountDown(5);
