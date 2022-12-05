@@ -30,7 +30,8 @@ namespace GraveyardBattlefield
     public enum BulletState
     {
         HaveBullet,
-        DontHaveBullet
+        DontHaveBullet,
+        TotallyDontHaveBullet
     }
     public class Game1 : Game
     {
@@ -410,15 +411,11 @@ namespace GraveyardBattlefield
             //draw reload notification when player run out of bullets
             if (bulletState == BulletState.DontHaveBullet && gameState != GameState.Menu && gameState != GameState.GameOver)
             {
-                if (bullets.Count == 0)
-                {
-                    _spriteBatch.DrawString(font, $"Alert! No more bullets left to reload!", new Vector2(400, (screenHeight / 2) - 200), Color.White);
-
-                }
-                else
-                {
-                    _spriteBatch.DrawString(font, $"Reloading! {string.Format("{0:0.00}", reloadindTime)}seconds before reload is done!", new Vector2(400, (screenHeight / 2)), Color.White);
-                }
+                _spriteBatch.DrawString(font, $"Reloading! {string.Format("{0:0.00}", reloadindTime)}seconds before reload is done!", new Vector2(400, (screenHeight / 2)), Color.White);
+            }
+            else if (bulletState == BulletState.TotallyDontHaveBullet)
+            {
+                _spriteBatch.DrawString(font, $"You are doomed! No bullets left for you, wait till you death!", new Vector2(400, (screenHeight / 2)), Color.White);
             }
             _spriteBatch.End();
             base.Draw(gameTime);
@@ -503,9 +500,13 @@ namespace GraveyardBattlefield
                     playerBullet--;
                 }
             }
-            if (playerBullet == 0)
+            if (playerBullet == 0&& playerBackupBullet != 0)
             {
                 bulletState = BulletState.DontHaveBullet;
+            }
+            else if (playerBullet == 0 && playerBackupBullet == 0)
+            {
+                bulletState = BulletState.TotallyDontHaveBullet;
             }
         }
         public void Reload()
@@ -517,9 +518,13 @@ namespace GraveyardBattlefield
                     playerBullet = 150;
                     playerBackupBullet -= 150;
                 }
+                bulletState = BulletState.HaveBullet;
+                reloadindTime = 3.5;
             }
-            bulletState = BulletState.HaveBullet;
-            reloadindTime = 3.5;
+            else if (playerBackupBullet == 0)
+            {
+                bulletState = BulletState.TotallyDontHaveBullet;
+            }
         }
         //reset game method
         public void ResetGame()
