@@ -18,6 +18,7 @@ namespace GraveyardBattlefield
         protected Rectangle position;
         protected Texture2D texture;
         private string shootAngle;
+        private bool hitted;
 
         //PROPERTIES
         public Rectangle Position
@@ -29,7 +30,11 @@ namespace GraveyardBattlefield
         {
             get { return bulletSpeed; }
         }
-
+        public bool Hitted
+        {
+            get { return hitted; }
+            set { hitted = value; }
+        }
 
 
         //CONSTRUCTOR
@@ -41,6 +46,7 @@ namespace GraveyardBattlefield
             this.position = position;
             this.texture = texture;
             bulletSpeed = 25;
+            hitted = false;
         }
 
         //METHODS

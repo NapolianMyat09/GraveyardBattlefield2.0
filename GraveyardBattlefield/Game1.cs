@@ -552,20 +552,27 @@ namespace GraveyardBattlefield
             AddBullet();
 
             //For bullets shot hitting zombie
-            for (int i = 0; i < bullets.Count; i++)
+            foreach(bullet Bullet in bullets)
             {
-                bullets[i].shootBullet();
+                Bullet.shootBullet();
                 for (int j = 0; j < zombies.Count; j++)
                 {
-                    if (bullets[i].Position.Contains(zombies[j].Position.X, zombies[j].Position.Y))
+                    if (Bullet.Position.Contains(zombies[j].Position.X, zombies[j].Position.Y))
                     //plus 15 is to make sure bullet hit zombie in middle
                     //if zombie position is inside bullet, will take dmg(Suppose to be vice-versa but it runs so its a hassle to change it)
                     {
                         zombies[j].TakeDamage();
+                        Bullet.Hitted = true;
                     }
                 }
             }
-
+            for(int i = 0; i < bullets.Count; i++)
+            {
+                if (bullets[i].Hitted)
+                {
+                    bullets.Remove(bullets[i]);
+                }
+            }
             if (countDown <= 0) //implement a countdown, will load zombies when countdown reaches 0
             {
                 //OLD CODE FOR ZOMBIES UPDATE
