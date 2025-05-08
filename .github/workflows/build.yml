@@ -28,3 +28,19 @@ jobs:
       - name: Run MonoGame Content Builder
         working-directory: GraveyardBattlefield/Content
         run: dotnet mgcb /@:"Content.mgcb"
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: GraveyardBattlefield/bin/Release/net6.0/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
