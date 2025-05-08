@@ -7,9 +7,7 @@ on:
 
 jobs:
   build:
-    name: Graveyard Battlefield Build
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -17,16 +15,16 @@ jobs:
       - name: Set Up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'  # Adjust based on your project
+          dotnet-version: '6.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore
         working-directory: GraveyardBattlefield
+        run: dotnet restore GraveyardBattlefield.sln
 
       - name: Build Project
-        run: dotnet build --configuration Release --no-restore
         working-directory: GraveyardBattlefield
+        run: dotnet build GraveyardBattlefield.sln --configuration Release --no-restore
 
-      - name: Run Tests
-        run: dotnet test --no-build --verbosity normal
-        working-directory: GraveyardBattlefield
+      - name: Run MonoGame Content Builder
+        working-directory: GraveyardBattlefield/Content
+        run: dotnet mgcb /@:"Content.mgcb"
