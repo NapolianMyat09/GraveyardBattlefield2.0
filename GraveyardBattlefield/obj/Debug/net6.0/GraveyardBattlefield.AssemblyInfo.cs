@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GraveyardBattlefield")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5dc2bc2e2488babc9ef8d9e74207cd794a5f13e9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4dea0b33b9ec5151c2d241cae5dc61e640ae4bda")]
 [assembly: System.Reflection.AssemblyProductAttribute("GraveyardBattlefield")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GraveyardBattlefield")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
