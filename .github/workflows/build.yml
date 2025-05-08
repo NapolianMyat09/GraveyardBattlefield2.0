@@ -30,7 +30,7 @@ jobs:
         run: dotnet mgcb /@:"Content.mgcb"
 
       - name: Upload Build Artifacts
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v4        
         with:
           path: GraveyardBattlefield/bin/Release/net6.0/
 
