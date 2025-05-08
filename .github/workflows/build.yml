@@ -21,9 +21,12 @@ jobs:
 
       - name: Restore Dependencies
         run: dotnet restore
+        working-directory: GraveyardBattlefield
 
       - name: Build Project
         run: dotnet build --configuration Release --no-restore
+        working-directory: GraveyardBattlefield
 
       - name: Run Tests
         run: dotnet test --no-build --verbosity normal
+        working-directory: GraveyardBattlefield
