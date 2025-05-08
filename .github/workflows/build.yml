@@ -1,0 +1,29 @@
+name: Automated Build
+
+on:
+  push:
+    branches:
+      - main  # Change this to your branch name if needed
+
+jobs:
+  build:
+    name: Graveyard Battlefield Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'  # Adjust based on your project
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build Project
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run Tests
+        run: dotnet test --no-build --verbosity normal
