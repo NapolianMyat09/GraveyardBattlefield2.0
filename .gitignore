@@ -99,7 +99,7 @@ bin/
 obj/
 
 # But allow these directories when used in GitHub Actions
-!bin/Release/
-!obj/Release/
-!bin/debug/net6.0/
-!obj/debug/net6.0/
+# !bin/Release/
+# !obj/Release/
+# !bin/debug/net6.0/
+# !obj/debug/net6.0/
