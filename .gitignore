@@ -103,3 +103,5 @@ obj/
 # !obj/Release/
 # !bin/debug/net6.0/
 # !obj/debug/net6.0/
+
+*.suo
