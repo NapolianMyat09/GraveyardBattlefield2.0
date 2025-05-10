@@ -89,6 +89,7 @@ crashlytics-build.properties
 *.log
 *.tmp
 *.sav
+*.vs
 
 # Visual Studio & IDE-Specific Files (MonoGame)
 *.vsconfig
