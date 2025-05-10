@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- For zipping -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script>
+    function zippedFile(){
+        window.location.href = "https://napolianmyat09.github.io/GraveyardBattlefield2.0/GraveyardBattlefield.zip";
+    }
+</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +16,8 @@
 </head>
 <body>
     <h1>GraveyardBattlefield</h1>
-    <p>This is my project</p>
-    <a href="./GraveyardBattlefield/bin/Debug/net6.0/">Download application</a>
+    <p width="100">This project was created through MonoGame. It was a collaboration project with peers -- Tracy Chun and Jason Wang, fellow students at Rochester Institute of Technology</p>
+    <button onclick="zippedFile()">Download GraveyardBattlefield2.0</button>
+    <!-- <a href="./GraveyardBattlefield/bin/Release/net6.0/">Download application</a> -->
 </body>
 </html>

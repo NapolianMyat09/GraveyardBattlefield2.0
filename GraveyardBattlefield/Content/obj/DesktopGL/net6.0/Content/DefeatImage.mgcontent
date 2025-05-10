@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/myatn/source/Repos/GraveyardBattlefield2.0/GraveyardBattlefield/Content/DefeatImage.jpg</SourceFile>
+  <SourceFile>C:/Users/myatn/source/repos/GraveyardBattlefield2.0/GraveyardBattlefield/Content/DefeatImage.jpg</SourceFile>
   <SourceTime>2025-05-08T01:53:25.8447998-04:00</SourceTime>
-  <DestFile>C:/Users/myatn/source/Repos/GraveyardBattlefield2.0/GraveyardBattlefield/Content/bin/DesktopGL/Content/DefeatImage.xnb</DestFile>
-  <DestTime>2025-05-10T00:54:12.3277683-04:00</DestTime>
+  <DestFile>C:/Users/myatn/source/repos/GraveyardBattlefield2.0/GraveyardBattlefield/Content/bin/DesktopGL/Content/DefeatImage.xnb</DestFile>
+  <DestTime>2025-05-10T01:37:50.3746538-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T07:44:56-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
